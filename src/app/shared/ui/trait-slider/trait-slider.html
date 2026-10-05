@@ -1,0 +1,32 @@
+<div class="py-sm">
+  <div class="flex items-center justify-between mb-1">
+    <span class="text-body-sm text-on-surface-variant">{{ traitCode }}</span>
+    <span class="font-data-mono text-data-mono text-primary bg-primary-container/10 px-xs rounded">{{ value }}</span>
+  </div>
+
+  <div class="relative h-6 flex items-center">
+    @if (sweetSpotStyle) {
+      <div
+        class="sweet-spot absolute h-2 rounded-full bg-secondary/25 pointer-events-none"
+        [style.left]="sweetSpotStyle.left"
+        [style.width]="sweetSpotStyle.width"
+      ></div>
+    }
+    <input
+      type="range"
+      class="custom-range relative w-full"
+      [min]="min"
+      [max]="max"
+      [step]="1"
+      [value]="value"
+      [disabled]="disabled"
+      (input)="handleInput($any($event.target).value)"
+    />
+  </div>
+
+  <div class="flex justify-between text-body-sm text-on-surface-variant mt-1">
+    <span>{{ lowLabel }}</span>
+    <span class="text-outline">{{ midLabel }}</span>
+    <span>{{ highLabel }}</span>
+  </div>
+</div>

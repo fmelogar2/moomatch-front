@@ -1,0 +1,393 @@
+{
+  "app": {
+    "name": "MooMatch",
+    "tagline": "Data-Driven Pairing"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "herdManagement": "Herd Management",
+    "cowIntake": "Cow Intake",
+    "recommendationHistory": "Recommendation History",
+    "matingOutcomes": "Mating Outcomes",
+    "wholeHerdOptimization": "Whole-Herd Optimization",
+    "programConfiguration": "Program Configuration",
+    "userManagement": "User Management",
+    "logout": "Log Out"
+  },
+  "login": {
+    "welcomeBack": "Welcome Back",
+    "subtitle": "Sign in to manage your herd's genetic profile.",
+    "workEmail": "Work Email",
+    "password": "Password",
+    "rememberDevice": "Remember device",
+    "resetPassword": "Reset password",
+    "accessTerminal": "Access Terminal",
+    "enterpriseSso": "Enterprise SSO",
+    "continueWithMicrosoft": "Continue with Microsoft",
+    "continueWithGoogle": "Continue with Google",
+    "dataProcessingTerms": "Data Processing Terms",
+    "byContinuing": "By signing in, you agree to the",
+    "noPendingInvitation": "No pending invitation was found for this account. Ask your Farm Admin to invite you first.",
+    "provisionNetworkError": "Couldn't reach the server (this usually means the API Gateway isn't running, or a CORS/network issue). Check the console and try again.",
+    "provisionServerError": "The server rejected the sign-in request. Check the console for details and try again.",
+    "invalidCredentials": "Incorrect email or password.",
+    "genericError": "Something went wrong signing you in. Please try again."
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading…",
+    "language": "Language",
+    "actions": "Actions",
+    "remove": "Remove",
+    "farmLabel": "Farm"
+  },
+  "breedingObjective": {
+    "tpi": "TPI (Total Performance Index)",
+    "fertility": "Fertility Focus",
+    "health": "Health & Longevity",
+    "milk": "Milk Yield (Production)",
+    "show": "Show Type (Conformation)",
+    "short": {
+      "TPI": "TPI",
+      "MILK": "Milk",
+      "FERTILITY": "Fert.",
+      "HEALTH": "Health",
+      "SHOW": "Show"
+    }
+  },
+  "dashboard": {
+    "totalHerdSize": "Total Herd Size",
+    "thisMonth": "+{{count}} this month",
+    "avgGeneticMerit": "Avg Genetic Merit",
+    "ytd": "+{{points}} pts (YTD)",
+    "pendingIntakes": "Pending Intakes",
+    "requireGenomicSampling": "Require genomic sampling",
+    "activeRecommendations": "Active Breeding Recommendations",
+    "viewAllRuns": "View All Runs",
+    "highConfidence": "High Confidence",
+    "reviewNeeded": "Review Needed",
+    "cows": "Cows: {{count}}",
+    "sires": "Sires: {{count}}",
+    "goal": "Goal",
+    "matchRate": "{{percent}}% Match Rate",
+    "geneticProgress": "Genetic Progress (Rolling 12 Months)",
+    "recentActivity": "Recent Activity",
+    "activity": {
+      "genomicResults": "Genomic Results received for {{count}} calves.",
+      "runApproved": "Breeding Run {{run}} approved by Tech {{user}}.",
+      "inbreedingAlert": "Inbreeding Alert detected in proposed match (Cow {{cow}} x Sire {{sire}}).",
+      "hoursAgo": "2 hours ago",
+      "yesterdayAt": "Yesterday"
+    },
+    "startNewRun": "Start New Run",
+    "startNewRunDesc": "Initialize the breeding engine with updated criteria.",
+    "configure": "Configure"
+  },
+  "herdList": {
+    "subtitle": "Overview of all active groups and recent optimization metrics.",
+    "createHerd": "Create New Herd",
+    "runOptimization": "Run Whole-Herd Optimization",
+    "activeHerds": "Active Herds",
+    "herdName": "Herd Name",
+    "headcount": "Headcount",
+    "avgTpi": "Avg TPI",
+    "lastRun": "Last Run",
+    "status": {
+      "label": "Status",
+      "optimized": "Optimized",
+      "needsUpdate": "Needs Update",
+      "reviewGenetics": "Review Genetics"
+    },
+    "engineStatus": "Engine Status",
+    "engineOnline": "Predictive Engine Online",
+    "nextRun": "Next automated run scheduled for 02:00 AM.",
+    "tpiTrend": "Herd TPI Trend",
+    "today0430": "Today, 04:30",
+    "oct24": "Oct 24, 2023",
+    "oct12": "Oct 12, 2023"
+  },
+  "cowIntake": {
+    "title": "Manual Cow Intake",
+    "subtitle": "Enter phenotypic data and linear classifications for genetic evaluation.",
+    "discardDraft": "Discard Draft",
+    "saveAndAnalyze": "Save & Analyze",
+    "identification": "Identification",
+    "cowIdLabel": "Cow ID / Ear Tag",
+    "registrationNameLabel": "Registration Name (Optional)",
+    "dobLabel": "Date of Birth",
+    "breedingObjective": "Breeding Objective",
+    "breedingObjectiveDesc": "Select the primary evaluation index. This will adjust the 'Sweet Spot' targets on the linear traits.",
+    "tab": {
+      "linear": "Linear Classification",
+      "production": "Production",
+      "reproductive": "Reproductive Status",
+      "health": "Health Events"
+    },
+    "linearClassification": "Linear Classification (1-9 Scale)",
+    "sweetSpotHint": "Target 'Sweet Spots' shown in green based on selected objective.",
+    "category": {
+      "frame": "Frame Traits",
+      "dairyStrength": "Dairy Strength Traits",
+      "feetLegs": "Feet & Legs Traits",
+      "udder": "Udder Traits",
+      "bodyCondition": "Body Condition"
+    },
+    "production": {
+      "title": "Production Record",
+      "lactationNumber": "Lactation Number",
+      "daysInMilk": "Days in Milk",
+      "milkYieldKg": "Milk Yield (kg)",
+      "fatPercent": "Fat %",
+      "proteinPercent": "Protein %",
+      "solidsPercent": "Solids %",
+      "somaticCellScore": "Somatic Cell Score",
+      "measurementBasis": "Measurement Basis"
+    },
+    "measurementBasis": {
+      "CURRENT_TEST_DAY": "Current Test Day",
+      "LACTATION_AVERAGE": "Lactation Average",
+      "MATURE_EQUIVALENT_305D": "Mature Equivalent (305D)"
+    },
+    "reproductive": {
+      "title": "Reproductive Status",
+      "status": "Status",
+      "lastCalvingDate": "Last Calving Date",
+      "daysOpen": "Days Open"
+    },
+    "reproductiveStatus": {
+      "OPEN": "Open",
+      "BRED": "Bred",
+      "PREGNANT": "Pregnant",
+      "DRY": "Dry",
+      "FRESH": "Fresh"
+    },
+    "health": {
+      "title": "Health Events",
+      "addEvent": "Add Event",
+      "empty": "No health events recorded yet.",
+      "eventType": "Event Type",
+      "severity": "Severity",
+      "occurredAt": "Occurred On"
+    },
+    "healthEventType": {
+      "MASTITIS": "Mastitis",
+      "LAMENESS": "Lameness",
+      "KETOSIS": "Ketosis",
+      "DISPLACED_ABOMASUM": "Displaced Abomasum",
+      "MILK_FEVER": "Milk Fever",
+      "RETAINED_PLACENTA": "Retained Placenta",
+      "METRITIS": "Metritis",
+      "OTHER": "Other"
+    },
+    "severity": {
+      "MILD": "Mild",
+      "MODERATE": "Moderate",
+      "SEVERE": "Severe"
+    },
+    "ofTraitsClassified": "of {{total}} traits classified"
+  },
+  "recommendationAnalysis": {
+    "title": "Mating Recommendation: Cow {{cow}}",
+    "lactation": "Lactation {{n}}",
+    "dataDaysAgo": "Data from 2 days ago",
+    "discard": "Discard",
+    "confirmMating": "Confirm Mating",
+    "whyThisBull": "Why this Bull",
+    "reason": {
+      "rumpAngle": {
+        "title": "Corrects Low Rump Angle",
+        "body": "This cow shows a high pins tendency. This bull strongly transmits optimal sloped rump traits."
+      },
+      "milkYield": {
+        "title": "Improves Milk Yield",
+        "body": "Compensates for the cow's slightly below-herd-average production potential."
+      },
+      "health": {
+        "title": "Maintains Strong Health Traits",
+        "body": "Ensures longevity and mastitis resistance remain in the top quartile."
+      }
+    },
+    "riskAnalysis": "Mating Risk Analysis",
+    "expectedInbreeding": "Expected Inbreeding",
+    "target": "Target < {{pct}}%",
+    "genomicReliability": "Genomic Reliability",
+    "reliabilityExplainer": "Prediction confidence is extremely strong based on extensive genomic testing and progeny data for this sire.",
+    "crossCountryCaveat": "This comparison uses a MACE-converted or percentile-approximated value — cross-country confidence is reduced.",
+    "environmentCaveat": "This bull's proof is confinement-derived; your herd is pasture-based, so results may vary."
+  },
+  "recommendationHistory": {
+    "subtitle": "Audit trail for all genetic breeding decisions across the herd.",
+    "exportCsv": "Export CSV",
+    "cowId": "Cow ID",
+    "date": "Date",
+    "objective": "Breeding Objective",
+    "recBull": "Rec. Bull",
+    "status": {
+      "label": "Status",
+      "draft": "Draft",
+      "scored": "Scored",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "discarded": "Discarded",
+      "noMatch": "No Match",
+      "closed": "Closed"
+    },
+    "user": "User",
+    "detailPlaceholder": "Full audit trail for {{id}} will appear here once the detail view is wired up."
+  },
+  "matingOutcomes": {
+    "subtitle": "Record birth details and validate genetic predictions for confirmed matings that have reached gestation maturity.",
+    "awaitingLogging": "{{count}} AWAITING LOGGING",
+    "statusCol": "Status",
+    "damId": "Dam ID",
+    "sireId": "Sire ID",
+    "matingDate": "Mating Date",
+    "estDue": "Est. Due",
+    "logOutcome": "Log Outcome",
+    "select": "Select",
+    "empty": "No matings are currently awaiting an outcome.",
+    "logOutcomeFor": "Log Outcome: {{dam}}",
+    "matingWith": "Mating with {{sire}}",
+    "calfDetails": "Calf Details",
+    "outcomeStatus": "Outcome Status",
+    "outcome": {
+      "liveBirthHealthy": "Live Birth - Healthy",
+      "complications": "Live Birth - Complications",
+      "stillborn": "Stillborn",
+      "aborted": "Aborted"
+    },
+    "birthDate": "Birth Date",
+    "sex": "Sex",
+    "heifer": "Heifer",
+    "bull": "Bull",
+    "assignCalfId": "Assign Calf ID (Optional)",
+    "predictedYield": "Predicted Genetic Yield",
+    "milkVolume": "Milk Volume (PTA)",
+    "productiveLife": "Productive Life",
+    "genomicKitNote": "A genomic sample kit will be automatically requested upon saving a live, healthy birth outcome.",
+    "saveOutcome": "Save Outcome"
+  },
+  "programConfig": {
+    "subtitle": "Manage core genetic thresholds and breeding objectives for your herd.",
+    "discardChanges": "Discard Changes",
+    "saveConfiguration": "Save Configuration",
+    "conflictReloading": "Someone else changed this configuration. Reloading the latest version — please reapply your changes.",
+    "geneticThresholds": "Genetic Thresholds",
+    "inbreedingLimit": "Inbreeding Coefficient Limit",
+    "inbreedingLimitDesc": "Maximum acceptable inbreeding coefficient for recommended matings.",
+    "reliabilityFloor": "Full Confidence Floor",
+    "reliabilityFloorDesc": "Minimum reliability for a sire to be considered 'proven' in reporting.",
+    "objectiveWeights": "Breeding Objective Weights",
+    "tpiDistribution": "TPI Trait Distribution",
+    "configHistory": "Configuration History",
+    "history": {
+      "changeLine": "{{field}} changed from {{oldValue}} to {{newValue}}",
+      "daysAgo": "2 days ago",
+      "weeksAgo": "14 days ago",
+      "monthAgo": "1 month ago"
+    },
+    "distribution": {
+      "production": "Production (Yield)",
+      "healthFertility": "Health & Fertility",
+      "type": "Type (Conformation)"
+    }
+  },
+  "userManagement": {
+    "subtitle": "Manage team access, roles, and herd permissions for your farm.",
+    "inviteUser": "Invite User",
+    "email": "Email",
+    "role": "Role",
+    "roleBreederTech": "Breeder/Tech",
+    "roleFarmAdmin": "Farm Admin",
+    "sendInvite": "Send Invite",
+    "totalUsers": "Total Users",
+    "activeUsers": "Active Technicians",
+    "pendingInvites": "Pending Invites",
+    "user": "User",
+    "herdAccess": "Herd Access",
+    "statusCol": "Status",
+    "lastLogin": "Last Login",
+    "status": {
+      "active": "Active",
+      "deactivated": "Deactivated",
+      "pending": "Pending Invite"
+    },
+    "allHerds": "All Herds",
+    "editRole": "Edit Role",
+    "deactivate": "Deactivate",
+    "reactivate": "Reactivate"
+  },
+  "herdOptimizationSetup": {
+    "subtitle": "Configure parameters for the batch mating run. Set constraints to ensure genetic diversity and meet inventory targets.",
+    "step1": "1. Breeding Objective",
+    "objective": {
+      "TPI": {
+        "title": "TPI Focus",
+        "desc": "Maximize Total Performance Index. Prioritizes production and functional type."
+      },
+      "FERTILITY": {
+        "title": "Fertility Plus",
+        "desc": "Heavily weights Daughter Pregnancy Rate and Calving Ease."
+      },
+      "CUSTOM": {
+        "title": "Custom Index",
+        "desc": "Use farm-specific weighted trait multipliers defined in settings."
+      }
+    },
+    "step2": "2. Bull Pool Selection",
+    "activeInventory": "Active Inventory Sires",
+    "siresAvailable": "{{count}} Sires currently available in semen tank.",
+    "editPool": "Edit Pool",
+    "sireId": "Sire ID",
+    "maxMatings": "Max Matings",
+    "inventoryStraws": "Inventory (Straws)",
+    "step3": "3. Inbreeding Constraints",
+    "maxInbreeding": "Max Expected Inbreeding %:",
+    "summary": "Configuration Summary",
+    "eligibleFemales": "Eligible Females:",
+    "siresInPool": "Sires in Pool:",
+    "totalStraws": "Total Straws Available:",
+    "estComputeTime": "Est. Compute Time:",
+    "replaceWarning": "Running this optimization will replace any unsaved drafts for the current breeding window.",
+    "start": "Start Optimization"
+  },
+  "herdOptimizationResults": {
+    "title": "Optimization Results",
+    "subtitle": "Review the generated mating plan for the current cycle.",
+    "exportPlan": "Export Plan",
+    "confirmAll": "Confirm All Matings",
+    "engineCompleted": "Optimization Engine Completed",
+    "processedSummary": "Processed 450 active females against 120 sire candidates in 14.2s.",
+    "totalCows": "Total Cows Assigned",
+    "ofEligible": "{{percent}}% of eligible herd",
+    "avgInbreeding": "Avg Expected Inbreeding",
+    "vsPrevious": "{{delta}}% vs previous generation",
+    "avgFitScore": "Avg Fit Score",
+    "improvement": "+{{delta}} pts improvement",
+    "detailedAssignments": "Detailed Mating Assignments",
+    "cowId": "Cow ID",
+    "lactation": "Lactation",
+    "assignedBull": "Assigned Bull",
+    "sireId": "Sire ID",
+    "expInbreeding": "Exp. Inbreeding",
+    "fitScore": "Fit Score",
+    "review": "Review"
+  },
+  "herdOptimizationLanding": {
+    "subtitle": "Run batch mating optimization across a whole herd, or review recent runs.",
+    "startNew": "Start New Optimization",
+    "startNewDesc": "Configure a new batch mating run for a herd.",
+    "configure": "Configure",
+    "recentJobs": "Recent Jobs",
+    "empty": "No optimization jobs yet.",
+    "status": {
+      "QUEUED": "Queued",
+      "RUNNING": "Running",
+      "COMPLETE": "Complete",
+      "FAILED": "Failed"
+    },
+    "daysAgo": "3 days ago",
+    "monthAgo": "1 month ago"
+  }
+}

@@ -1,0 +1,113 @@
+<main class="max-w-container-max mx-auto p-lg grid grid-cols-1 lg:grid-cols-12 gap-lg">
+  <div class="lg:col-span-8 space-y-md">
+    <div class="mb-xl">
+      <h1 class="font-display-lg text-display-lg text-primary mb-xs">{{ 'nav.wholeHerdOptimization' | transloco }}</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant">{{ 'herdOptimizationSetup.subtitle' | transloco }}</p>
+    </div>
+
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg">
+      <h2 class="font-headline-sm text-headline-sm text-primary mb-md flex items-center gap-sm">
+        <span class="material-symbols-outlined text-secondary">pest_control</span> {{ 'herdOptimizationSetup.step1' | transloco }}
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+        @for (obj of objectives; track obj) {
+          <label
+            (click)="selectObjective(obj)"
+            class="cursor-pointer relative border rounded-lg p-md transition-all"
+            [class]="objective === obj ? 'border-secondary bg-secondary-container/10' : 'border-outline-variant hover:bg-surface-container-lowest'"
+          >
+            <div class="font-headline-sm text-headline-sm text-primary mb-xs">{{ 'herdOptimizationSetup.objective.' + obj + '.title' | transloco }}</div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">{{ 'herdOptimizationSetup.objective.' + obj + '.desc' | transloco }}</p>
+            @if (objective === obj) {
+              <span class="material-symbols-outlined absolute top-md right-md text-secondary">check_circle</span>
+            }
+          </label>
+        }
+      </div>
+    </div>
+
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg">
+      <h2 class="font-headline-sm text-headline-sm text-primary mb-md flex items-center gap-sm">
+        <span class="material-symbols-outlined text-secondary">list_alt</span> {{ 'herdOptimizationSetup.step2' | transloco }}
+      </h2>
+      <div class="flex items-center justify-between bg-surface p-md rounded-lg border border-outline-variant mb-md">
+        <div>
+          <div class="font-body-md text-body-md font-bold text-primary">{{ 'herdOptimizationSetup.activeInventory' | transloco }}</div>
+          <div class="font-body-sm text-body-sm text-on-surface-variant">{{ 'herdOptimizationSetup.siresAvailable' | transloco: { count: bullPool().length } }}</div>
+        </div>
+        <button type="button" class="px-md py-sm bg-surface-container-high hover:bg-surface-dim transition-colors rounded text-primary font-body-sm text-body-sm font-bold border border-outline-variant">
+          {{ 'herdOptimizationSetup.editPool' | transloco }}
+        </button>
+      </div>
+      <div class="overflow-x-auto rounded-lg border border-outline-variant">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-surface-container-low font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">
+            <tr>
+              <th class="px-md py-sm font-medium">{{ 'herdOptimizationSetup.sireId' | transloco }}</th>
+              <th class="px-md py-sm font-medium border-l border-outline-variant">{{ 'herdOptimizationSetup.maxMatings' | transloco }}</th>
+              <th class="px-md py-sm font-medium border-l border-outline-variant">{{ 'herdOptimizationSetup.inventoryStraws' | transloco }}</th>
+            </tr>
+          </thead>
+          <tbody class="font-data-mono text-data-mono text-primary divide-y divide-outline-variant">
+            @for (bull of bullPool(); track bull.bullId) {
+              <tr class="hover:bg-primary/5 transition-colors">
+                <td class="px-md py-sm">{{ bull.registryId }}</td>
+                <td class="px-md py-sm border-l border-outline-variant">
+                  <input type="number" [(ngModel)]="bull.maxMatings" [name]="'maxMatings' + bull.bullId" class="w-20 bg-surface border border-outline-variant rounded px-xs py-xs text-right outline-none" />
+                </td>
+                <td class="px-md py-sm border-l border-outline-variant">{{ bull.semenInventory }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg">
+      <h2 class="font-headline-sm text-headline-sm text-primary mb-md flex items-center gap-sm">
+        <span class="material-symbols-outlined text-secondary">warning</span> {{ 'herdOptimizationSetup.step3' | transloco }}
+      </h2>
+      <div class="flex items-center gap-md">
+        <label class="font-body-sm text-body-sm text-on-surface-variant w-48">{{ 'herdOptimizationSetup.maxInbreeding' | transloco }}</label>
+        <input type="range" min="0" max="10" step="0.25" [(ngModel)]="maxExpectedInbreedingPercent" name="maxInbreeding" class="flex-1 accent-secondary" />
+        <span class="font-data-mono text-data-mono text-primary font-bold bg-surface-container-high px-sm py-xs rounded border border-outline-variant">{{ maxExpectedInbreedingPercent }}%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lg:col-span-4">
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg sticky top-lg">
+      <h3 class="font-headline-md text-headline-md text-primary mb-md border-b border-outline-variant pb-sm">{{ 'herdOptimizationSetup.summary' | transloco }}</h3>
+      @if (summary(); as s) {
+        <div class="space-y-sm mb-lg">
+          <div class="flex justify-between items-center py-xs border-b border-outline-variant border-dashed">
+            <span class="font-body-sm text-body-sm text-on-surface-variant">{{ 'herdOptimizationSetup.eligibleFemales' | transloco }}</span>
+            <span class="font-data-mono text-data-mono text-primary">{{ s.eligibleFemales }}</span>
+          </div>
+          <div class="flex justify-between items-center py-xs border-b border-outline-variant border-dashed">
+            <span class="font-body-sm text-body-sm text-on-surface-variant">{{ 'herdOptimizationSetup.siresInPool' | transloco }}</span>
+            <span class="font-data-mono text-data-mono text-primary">{{ s.siresInPool }}</span>
+          </div>
+          <div class="flex justify-between items-center py-xs border-b border-outline-variant border-dashed">
+            <span class="font-body-sm text-body-sm text-on-surface-variant">{{ 'herdOptimizationSetup.totalStraws' | transloco }}</span>
+            <span class="font-data-mono text-data-mono text-primary">{{ s.totalStrawsAvailable }}</span>
+          </div>
+          <div class="flex justify-between items-center py-xs">
+            <span class="font-body-sm text-body-sm text-on-surface-variant">{{ 'herdOptimizationSetup.estComputeTime' | transloco }}</span>
+            <span class="font-data-mono text-data-mono text-primary">{{ s.estimatedComputeTimeLabel }}</span>
+          </div>
+        </div>
+      }
+      <div class="bg-surface-container p-md rounded-lg mb-lg border border-outline-variant">
+        <div class="flex items-start gap-sm">
+          <span class="material-symbols-outlined text-secondary">info</span>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">{{ 'herdOptimizationSetup.replaceWarning' | transloco }}</p>
+        </div>
+      </div>
+      <button type="button" [disabled]="starting()" (click)="start()" class="w-full bg-secondary text-on-secondary font-headline-sm text-headline-sm py-md rounded-lg transition-colors flex items-center justify-center gap-sm shadow-md disabled:opacity-60">
+        <span class="material-symbols-outlined">play_arrow</span>
+        {{ 'herdOptimizationSetup.start' | transloco }}
+      </button>
+    </div>
+  </div>
+</main>

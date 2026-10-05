@@ -1,0 +1,44 @@
+<div class="p-lg max-w-container-max mx-auto">
+  <h1 class="font-display-lg text-display-lg text-on-background mb-xs">{{ 'nav.wholeHerdOptimization' | transloco }}</h1>
+  <p class="font-body-md text-body-md text-on-surface-variant mb-lg">{{ 'herdOptimizationLanding.subtitle' | transloco }}</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-lg">
+    <div class="md:col-span-4">
+      <a
+        routerLink="/herd-optimization/setup"
+        class="block bg-primary text-on-primary rounded-lg p-lg shadow-sm relative overflow-hidden hover:opacity-95 transition-opacity"
+      >
+        <div class="absolute top-0 right-0 -mt-4 -mr-4 opacity-10">
+          <span class="material-symbols-outlined" style="font-size: 120px">science</span>
+        </div>
+        <h3 class="font-headline-sm text-headline-sm mb-sm relative z-10">{{ 'herdOptimizationLanding.startNew' | transloco }}</h3>
+        <p class="font-body-sm text-body-sm mb-md relative z-10 text-primary-fixed-dim">{{ 'herdOptimizationLanding.startNewDesc' | transloco }}</p>
+        <span class="bg-on-primary text-primary font-label-caps text-label-caps px-4 py-2 rounded shadow inline-flex items-center gap-xs relative z-10">
+          {{ 'herdOptimizationLanding.configure' | transloco }} <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </span>
+      </a>
+    </div>
+
+    <div class="md:col-span-8">
+      <div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
+        <div class="p-md border-b border-outline-variant bg-surface-bright">
+          <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ 'herdOptimizationLanding.recentJobs' | transloco }}</h3>
+        </div>
+        <div class="divide-y divide-outline-variant">
+          @for (job of recentJobs(); track job.jobId) {
+            <a [routerLink]="['/herd-optimization/results', job.jobId]" class="flex items-center justify-between p-md hover:bg-surface-container-low transition-colors">
+              <div>
+                <p class="font-body-md text-body-md font-semibold text-on-surface">{{ job.herdName }}</p>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">{{ job.completedAtLabel | transloco }}</p>
+              </div>
+              <app-status-pill [label]="'herdOptimizationLanding.status.' + job.status | transloco" [tone]="toneFor(job.status)" />
+            </a>
+          }
+          @if (recentJobs().length === 0) {
+            <p class="p-md font-body-sm text-body-sm text-on-surface-variant">{{ 'herdOptimizationLanding.empty' | transloco }}</p>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

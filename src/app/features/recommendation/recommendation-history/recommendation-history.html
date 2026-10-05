@@ -1,0 +1,71 @@
+<div class="p-lg lg:p-xl">
+  <div class="max-w-container-max mx-auto">
+    <div class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-md">
+      <div>
+        <h1 class="font-headline-md text-headline-md text-primary font-bold mb-xs">{{ 'nav.recommendationHistory' | transloco }}</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant">{{ 'recommendationHistory.subtitle' | transloco }}</p>
+      </div>
+      <button type="button" class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-body-sm text-body-sm font-medium hover:bg-opacity-90 transition-opacity shadow-sm">
+        <span class="material-symbols-outlined text-sm">download</span>
+        {{ 'recommendationHistory.exportCsv' | transloco }}
+      </button>
+    </div>
+
+    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-surface-container-low border-b border-outline-variant">
+            <tr>
+              <th class="p-sm px-md font-body-sm text-body-sm font-semibold text-on-surface-variant uppercase tracking-wider w-12"></th>
+              <th class="p-sm px-md font-body-sm text-body-sm font-semibold text-on-surface-variant uppercase tracking-wider">{{ 'recommendationHistory.cowId' | transloco }}</th>
+              <th class="p-sm px-md font-body-sm text-body-sm font-semibold text-on-surface-variant uppercase tracking-wider">{{ 'recommendationHistory.date' | transloco }}</th>
+              <th class="p-sm px-md font-body-sm text-body-sm font-semibold text-on-surface-variant uppercase tracking-wider">{{ 'recommendationHistory.objective' | transloco }}</th>
+              <th class="p-sm px-md font-body-sm text-body-sm font-semibold text-on-surface-variant uppercase tracking-wider">{{ 'recommendationHistory.recBull' | transloco }}</th>
+              <th class="p-sm px-md font-body-sm text-body-sm font-semibold text-on-surface-variant uppercase tracking-wider">{{ 'recommendationHistory.status.label' | transloco }}</th>
+              <th class="p-sm px-md font-body-sm text-body-sm font-semibold text-on-surface-variant uppercase tracking-wider">{{ 'recommendationHistory.user' | transloco }}</th>
+              <th class="p-sm px-md font-body-sm text-body-sm font-semibold text-on-surface-variant uppercase tracking-wider text-right">{{ 'common.actions' | transloco }}</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-outline-variant">
+            @for (row of rows(); track row.id) {
+              <tr class="hover:bg-primary/5 transition-colors cursor-pointer" (click)="toggle(row)">
+                <td class="p-sm px-md text-center">
+                  <span class="material-symbols-outlined text-sm text-on-surface-variant">
+                    {{ expandedId() === row.id ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}
+                  </span>
+                </td>
+                <td class="p-sm px-md"><span class="font-data-mono text-data-mono text-primary font-medium">{{ row.cowIdentifier }}</span></td>
+                <td class="p-sm px-md font-body-sm text-body-sm text-on-surface-variant">{{ row.requestedAtLabel }}</td>
+                <td class="p-sm px-md font-body-sm text-body-sm">{{ row.objectiveLabelKey | transloco }}</td>
+                <td class="p-sm px-md">
+                  <div class="flex items-center gap-2">
+                    <span class="font-data-mono text-data-mono">{{ row.recommendedBullRegistryId }}</span>
+                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-secondary text-on-secondary">{{ row.topFitScore }}%</span>
+                  </div>
+                </td>
+                <td class="p-sm px-md">
+                  <app-status-pill [label]="labelKeyFor(row.status) | transloco" [tone]="toneFor(row.status)" />
+                </td>
+                <td class="p-sm px-md font-body-sm text-body-sm text-on-surface-variant">{{ row.actorName }}</td>
+                <td class="p-sm px-md text-right">
+                  <button type="button" class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded transition-colors">
+                    <span class="material-symbols-outlined text-sm">visibility</span>
+                  </button>
+                </td>
+              </tr>
+              @if (expandedId() === row.id) {
+                <tr>
+                  <td colspan="8" class="p-md bg-surface-container-low border-t border-outline-variant">
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">
+                      {{ 'recommendationHistory.detailPlaceholder' | transloco: { id: row.cowIdentifier } }}
+                    </p>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,136 @@
+@if (isAdmin()) {
+  <main class="flex-1 overflow-y-auto p-lg bg-surface">
+    <div class="max-w-[1440px] mx-auto flex flex-col gap-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-md">
+        <div>
+          <h1 class="font-headline-md text-headline-md text-primary mb-xs">{{ 'nav.userManagement' | transloco }}</h1>
+          <p class="font-body-md text-body-md text-on-surface-variant">{{ 'userManagement.subtitle' | transloco }}</p>
+        </div>
+        <button type="button" (click)="toggleInviteForm()" class="bg-primary text-on-primary font-body-md text-body-md font-semibold py-2 px-4 rounded flex items-center gap-2 hover:opacity-90 transition-colors shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[20px]">person_add</span>
+          {{ 'userManagement.inviteUser' | transloco }}
+        </button>
+      </div>
+
+      @if (showInviteForm()) {
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-wrap items-end gap-md">
+          <div class="flex-1 min-w-[220px]">
+            <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'userManagement.email' | transloco }}</label>
+            <input type="email" [(ngModel)]="inviteEmail" name="inviteEmail" placeholder="name@farm.com" class="w-full bg-surface-container-low border border-outline-variant rounded px-sm py-sm outline-none" />
+          </div>
+          <div>
+            <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'userManagement.role' | transloco }}</label>
+            <select [(ngModel)]="inviteRole" name="inviteRole" class="bg-surface-container-low border border-outline-variant rounded px-sm py-sm outline-none">
+              <option value="BREEDER_TECHNICIAN">{{ 'userManagement.roleBreederTech' | transloco }}</option>
+              <option value="FARM_ADMIN">{{ 'userManagement.roleFarmAdmin' | transloco }}</option>
+            </select>
+          </div>
+          <button type="button" (click)="sendInvite()" class="bg-primary text-on-primary px-md py-sm rounded font-body-sm text-body-sm font-medium hover:opacity-90">
+            {{ 'userManagement.sendInvite' | transloco }}
+          </button>
+        </div>
+      }
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+        <div class="bg-surface-container-lowest p-md rounded-lg border border-outline-variant flex items-center gap-md">
+          <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+            <span class="material-symbols-outlined text-[24px]">groups</span>
+          </div>
+          <div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant font-medium">{{ 'userManagement.totalUsers' | transloco }}</p>
+            <p class="font-headline-md text-headline-md text-primary">{{ users().length }}</p>
+          </div>
+        </div>
+        <div class="bg-surface-container-lowest p-md rounded-lg border border-outline-variant flex items-center gap-md">
+          <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-[24px]">science</span>
+          </div>
+          <div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant font-medium">{{ 'userManagement.activeUsers' | transloco }}</p>
+            <p class="font-headline-md text-headline-md text-primary">{{ activeCount }}</p>
+          </div>
+        </div>
+        <div class="bg-surface-container-lowest p-md rounded-lg border border-outline-variant flex items-center gap-md">
+          <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-on-error-container">
+            <span class="material-symbols-outlined text-[24px]">schedule</span>
+          </div>
+          <div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant font-medium">{{ 'userManagement.pendingInvites' | transloco }}</p>
+            <p class="font-headline-md text-headline-md text-primary">{{ pendingCount }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden flex flex-col">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[800px]">
+            <thead>
+              <tr class="border-b border-outline-variant">
+                <th class="py-2 px-sm font-label-caps text-label-caps text-on-surface-variant font-semibold">{{ 'userManagement.user' | transloco }}</th>
+                <th class="py-2 px-sm font-label-caps text-label-caps text-on-surface-variant font-semibold">{{ 'userManagement.role' | transloco }}</th>
+                <th class="py-2 px-sm font-label-caps text-label-caps text-on-surface-variant font-semibold">{{ 'userManagement.herdAccess' | transloco }}</th>
+                <th class="py-2 px-sm font-label-caps text-label-caps text-on-surface-variant font-semibold">{{ 'userManagement.statusCol' | transloco }}</th>
+                <th class="py-2 px-sm font-label-caps text-label-caps text-on-surface-variant font-semibold">{{ 'userManagement.lastLogin' | transloco }}</th>
+                <th class="py-2 px-sm font-label-caps text-label-caps text-on-surface-variant font-semibold text-right">{{ 'common.actions' | transloco }}</th>
+              </tr>
+            </thead>
+            <tbody class="font-body-sm text-body-sm text-on-surface">
+              @for (user of users(); track user.id) {
+                <tr class="border-b border-outline-variant hover:bg-primary/5 transition-colors group">
+                  <td class="py-sm px-sm">
+                    <div class="flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-medium shrink-0">{{ initials(user.email) }}</div>
+                      <div class="text-on-surface-variant text-xs">{{ user.email }}</div>
+                    </div>
+                  </td>
+                  <td class="py-sm px-sm">
+                    @if (editingUserId() === user.id) {
+                      <select [(ngModel)]="editRole" [name]="'editRole' + user.id" class="bg-surface-container-low border border-outline-variant rounded px-sm py-1 text-xs outline-none">
+                        <option value="BREEDER_TECHNICIAN">{{ 'userManagement.roleBreederTech' | transloco }}</option>
+                        <option value="FARM_ADMIN">{{ 'userManagement.roleFarmAdmin' | transloco }}</option>
+                      </select>
+                    } @else {
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary-container text-on-primary-container">
+                        {{ user.role === 'FARM_ADMIN' ? ('userManagement.roleFarmAdmin' | transloco) : ('userManagement.roleBreederTech' | transloco) }}
+                      </span>
+                    }
+                  </td>
+                  <td class="py-sm px-sm font-data-mono text-data-mono text-on-surface-variant">
+                    {{ user.herdAccess.length === 0 ? ('userManagement.allHerds' | transloco) : user.herdAccess.join(', ') }}
+                  </td>
+                  <td class="py-sm px-sm"><app-status-pill [label]="labelKeyFor(user.status) | transloco" [tone]="toneFor(user.status)" /></td>
+                  <td class="py-sm px-sm font-data-mono text-data-mono text-on-surface-variant">{{ user.lastLoginAt ? (user.lastLoginAt | date: 'MMM d, HH:mm') : '—' }}</td>
+                  <td class="py-sm px-sm text-right">
+                    <div class="flex items-center justify-end gap-1">
+                      @if (editingUserId() === user.id) {
+                        <button type="button" (click)="saveRole(user)" class="p-1 rounded text-secondary hover:bg-secondary-container transition-colors" [title]="'common.save' | transloco">
+                          <span class="material-symbols-outlined text-[18px]">check</span>
+                        </button>
+                        <button type="button" (click)="cancelEdit()" class="p-1 rounded text-on-surface-variant hover:bg-surface-container-high transition-colors" [title]="'common.cancel' | transloco">
+                          <span class="material-symbols-outlined text-[18px]">close</span>
+                        </button>
+                      } @else {
+                        <button type="button" (click)="startEdit(user)" class="p-1 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" [title]="'userManagement.editRole' | transloco">
+                          <span class="material-symbols-outlined text-[18px]">edit</span>
+                        </button>
+                        @if (user.status === 'ACTIVE') {
+                          <button type="button" (click)="deactivate(user)" class="p-1 rounded text-on-surface-variant hover:bg-error-container hover:text-error transition-colors" [title]="'userManagement.deactivate' | transloco">
+                            <span class="material-symbols-outlined text-[18px]">block</span>
+                          </button>
+                        } @else if (user.status === 'DEACTIVATED') {
+                          <button type="button" (click)="reactivate(user)" class="p-1 rounded text-on-surface-variant hover:bg-secondary-container hover:text-secondary transition-colors" [title]="'userManagement.reactivate' | transloco">
+                            <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                          </button>
+                        }
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+}

@@ -1,0 +1,143 @@
+<main class="flex-1 overflow-y-auto p-md md:p-lg flex flex-col xl:flex-row gap-lg">
+  <div class="flex-1 max-w-[900px] flex flex-col gap-lg mx-auto w-full">
+    <div class="flex flex-col gap-xs">
+      <h1 class="font-headline-md text-headline-md text-primary">{{ 'nav.matingOutcomes' | transloco }}</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">{{ 'matingOutcomes.subtitle' | transloco }}</p>
+    </div>
+
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+      <div class="flex items-center justify-between p-sm border-b border-outline-variant bg-surface-container-low">
+        <span class="inline-flex items-center px-2 py-1 rounded bg-secondary-container text-on-secondary-container font-label-caps text-label-caps">
+          {{ 'matingOutcomes.awaitingLogging' | transloco: { count: pending().length } }}
+        </span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-surface-container-low border-b border-outline-variant text-on-surface-variant font-label-caps text-label-caps">
+              <th class="p-sm font-semibold w-12 text-center">{{ 'matingOutcomes.statusCol' | transloco }}</th>
+              <th class="p-sm font-semibold border-l border-outline-variant/30">{{ 'matingOutcomes.damId' | transloco }}</th>
+              <th class="p-sm font-semibold border-l border-outline-variant/30">{{ 'matingOutcomes.sireId' | transloco }}</th>
+              <th class="p-sm font-semibold border-l border-outline-variant/30">{{ 'matingOutcomes.matingDate' | transloco }}</th>
+              <th class="p-sm font-semibold border-l border-outline-variant/30">{{ 'matingOutcomes.estDue' | transloco }}</th>
+              <th class="p-sm font-semibold border-l border-outline-variant/30 text-right">{{ 'common.actions' | transloco }}</th>
+            </tr>
+          </thead>
+          <tbody class="font-data-mono text-data-mono text-on-surface">
+            @for (mating of pending(); track mating.recommendationId) {
+              <tr
+                class="border-b border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer border-l-4"
+                [class]="selected()?.recommendationId === mating.recommendationId ? 'bg-secondary-container/10 border-l-secondary' : 'border-l-transparent'"
+                (click)="select(mating)"
+              >
+                <td class="p-sm text-center">
+                  <div class="w-2 h-2 rounded-full mx-auto" [class]="mating.overdue ? 'bg-error animate-pulse' : 'bg-secondary'"></div>
+                </td>
+                <td class="p-sm border-l border-outline-variant/30">
+                  <div class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">female</span>{{ mating.damId }}</div>
+                </td>
+                <td class="p-sm border-l border-outline-variant/30 text-primary">
+                  <div class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">male</span>{{ mating.sireId }}</div>
+                </td>
+                <td class="p-sm border-l border-outline-variant/30 text-on-surface-variant">{{ mating.matingDateLabel }}</td>
+                <td class="p-sm border-l border-outline-variant/30" [class]="mating.overdue ? 'font-semibold text-error' : ''">{{ mating.estimatedDueDateLabel }}</td>
+                <td class="p-sm border-l border-outline-variant/30 text-right">
+                  <button
+                    type="button"
+                    (click)="select(mating); $event.stopPropagation()"
+                    class="px-3 py-1 rounded text-body-sm font-body-sm font-medium transition-colors"
+                    [class]="selected()?.recommendationId === mating.recommendationId ? 'bg-primary text-on-primary hover:opacity-90' : 'bg-surface-container-high text-on-surface border border-outline-variant hover:bg-surface-variant'"
+                  >
+                    {{ selected()?.recommendationId === mating.recommendationId ? ('matingOutcomes.logOutcome' | transloco) : ('matingOutcomes.select' | transloco) }}
+                  </button>
+                </td>
+              </tr>
+            }
+            @if (pending().length === 0) {
+              <tr><td colspan="6" class="p-md text-center text-on-surface-variant font-body-sm text-body-sm">{{ 'matingOutcomes.empty' | transloco }}</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  @if (selected(); as mating) {
+    <div class="flex flex-col w-full xl:w-[400px] bg-surface-container-lowest border border-outline-variant rounded-xl shadow-lg shrink-0 overflow-hidden h-fit xl:sticky xl:top-lg">
+      <div class="p-md border-b border-outline-variant bg-surface-container-low">
+        <h3 class="font-headline-sm text-headline-sm text-primary mb-1">{{ 'matingOutcomes.logOutcomeFor' | transloco: { dam: mating.damId } }}</h3>
+        <p class="font-label-caps text-label-caps text-on-surface-variant">{{ 'matingOutcomes.matingWith' | transloco: { sire: mating.sireId } }}</p>
+      </div>
+      <div class="p-md flex flex-col gap-lg overflow-y-auto">
+        <div class="flex flex-col gap-md">
+          <h4 class="font-body-md text-body-md font-semibold text-on-surface border-b border-outline-variant pb-1">{{ 'matingOutcomes.calfDetails' | transloco }}</h4>
+          <div class="flex flex-col gap-1">
+            <label class="font-label-caps text-label-caps text-on-surface-variant">{{ 'matingOutcomes.outcomeStatus' | transloco }}</label>
+            <select [(ngModel)]="status" name="status" class="w-full bg-surface border border-outline-variant rounded-md px-3 py-2 text-body-sm outline-none">
+              <option value="LIVE_BIRTH_HEALTHY">{{ 'matingOutcomes.outcome.liveBirthHealthy' | transloco }}</option>
+              <option value="COMPLICATIONS">{{ 'matingOutcomes.outcome.complications' | transloco }}</option>
+              <option value="STILLBORN">{{ 'matingOutcomes.outcome.stillborn' | transloco }}</option>
+              <option value="ABORTED">{{ 'matingOutcomes.outcome.aborted' | transloco }}</option>
+            </select>
+          </div>
+          <div class="flex gap-md">
+            <div class="flex-1 flex flex-col gap-1">
+              <label class="font-label-caps text-label-caps text-on-surface-variant">{{ 'matingOutcomes.birthDate' | transloco }}</label>
+              <input type="date" [(ngModel)]="birthDate" name="birthDate" class="w-full bg-surface border border-outline-variant rounded-md px-3 py-2 text-body-sm font-data-mono outline-none" />
+            </div>
+            <div class="flex-1 flex flex-col gap-1">
+              <label class="font-label-caps text-label-caps text-on-surface-variant">{{ 'matingOutcomes.sex' | transloco }}</label>
+              <div class="flex gap-2">
+                <button type="button" (click)="calfSex = 'HEIFER'" class="flex-1 py-1.5 border rounded text-body-sm transition-colors flex items-center justify-center gap-1"
+                  [class]="calfSex === 'HEIFER' ? 'border-primary bg-primary-fixed/20 text-primary font-medium' : 'border-outline-variant text-on-surface-variant hover:bg-surface-variant'">
+                  <span class="material-symbols-outlined text-[16px]">female</span> {{ 'matingOutcomes.heifer' | transloco }}
+                </button>
+                <button type="button" (click)="calfSex = 'BULL'" class="flex-1 py-1.5 border rounded text-body-sm transition-colors flex items-center justify-center gap-1"
+                  [class]="calfSex === 'BULL' ? 'border-primary bg-primary-fixed/20 text-primary font-medium' : 'border-outline-variant text-on-surface-variant hover:bg-surface-variant'">
+                  <span class="material-symbols-outlined text-[16px]">male</span> {{ 'matingOutcomes.bull' | transloco }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="font-label-caps text-label-caps text-on-surface-variant">{{ 'matingOutcomes.assignCalfId' | transloco }}</label>
+            <input type="text" [(ngModel)]="calfId" name="calfId" placeholder="C-8820" class="w-full bg-surface border border-outline-variant rounded-md px-3 py-2 text-body-sm font-data-mono outline-none" />
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-md bg-surface-container-low p-md rounded-lg border border-outline-variant">
+          <div class="flex justify-between items-center border-b border-outline-variant pb-2">
+            <h4 class="font-body-md text-body-md font-semibold text-on-surface flex items-center gap-1">
+              <span class="material-symbols-outlined text-[18px] text-primary">biotech</span>
+              {{ 'matingOutcomes.predictedYield' | transloco }}
+            </h4>
+          </div>
+          <div class="grid grid-cols-2 gap-sm mt-2">
+            <div class="flex flex-col">
+              <span class="font-label-caps text-label-caps text-on-surface-variant">{{ 'matingOutcomes.milkVolume' | transloco }}</span>
+              <span class="font-data-mono text-data-mono text-on-surface">{{ mating.predictedMilkPta }}</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="font-label-caps text-label-caps text-on-surface-variant">{{ 'matingOutcomes.productiveLife' | transloco }}</span>
+              <span class="font-data-mono text-data-mono text-on-surface">{{ mating.predictedProductiveLife }}</span>
+            </div>
+          </div>
+          @if (status === 'LIVE_BIRTH_HEALTHY') {
+            <div class="mt-sm flex items-start gap-2 bg-inverse-on-surface p-2 rounded border border-outline-variant/50">
+              <span class="material-symbols-outlined text-[16px] text-primary mt-0.5">info</span>
+              <p class="text-[11px] leading-tight text-on-surface-variant">{{ 'matingOutcomes.genomicKitNote' | transloco }}</p>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="p-md border-t border-outline-variant flex gap-sm mt-auto">
+        <button type="button" (click)="selected.set(null)" class="flex-1 py-2 border border-outline-variant rounded-md text-on-surface font-body-sm font-medium hover:bg-surface-container-low transition-colors">
+          {{ 'common.cancel' | transloco }}
+        </button>
+        <button type="button" [disabled]="saving()" (click)="saveOutcome()" class="flex-[2] py-2 bg-primary text-on-primary rounded-md text-body-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60">
+          {{ 'matingOutcomes.saveOutcome' | transloco }}
+        </button>
+      </div>
+    </div>
+  }
+</main>

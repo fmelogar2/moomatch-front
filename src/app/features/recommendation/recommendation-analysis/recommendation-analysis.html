@@ -1,0 +1,98 @@
+@if (header(); as h) {
+  <div class="px-lg py-md flex items-center justify-between border-b border-outline-variant bg-surface-container-lowest sticky top-0 z-10 flex-wrap gap-md">
+    <div class="flex items-center gap-sm">
+      <button type="button" (click)="goBack()" class="p-sm rounded-full hover:bg-surface-container-highest transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div>
+        <h1 class="font-headline-md text-headline-md text-on-surface">{{ 'recommendationAnalysis.title' | transloco: { cow: h.cowIdentifier } }}</h1>
+        <div class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-2 flex-wrap">
+          <span>{{ h.breed }}</span> • <span>{{ 'recommendationAnalysis.lactation' | transloco: { n: h.lactationNumber } }}</span>
+          <span class="inline-flex items-center gap-1 bg-surface-container-high px-2 py-1 rounded text-on-surface-variant font-data-mono text-data-mono ml-2">
+            <span class="material-symbols-outlined text-[14px]">update</span>
+            {{ h.dataAsOfLabel | transloco }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center gap-md">
+      <button type="button" (click)="discard()" class="px-lg py-sm font-body-md text-body-md text-on-surface bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-colors">
+        {{ 'recommendationAnalysis.discard' | transloco }}
+      </button>
+      <button type="button" (click)="confirmMating()" class="px-lg py-sm font-body-md text-body-md text-on-primary bg-primary rounded hover:opacity-90 transition-opacity flex items-center gap-2">
+        <span class="material-symbols-outlined">check_circle</span>
+        {{ 'recommendationAnalysis.confirmMating' | transloco }}
+      </button>
+    </div>
+  </div>
+
+  <div class="p-lg">
+    <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-lg">
+      <!-- Left column -->
+      <div class="lg:col-span-8 flex flex-col gap-lg">
+        @if (candidate(); as c) {
+          <app-candidate-card [bullName]="c.bullName" [registryId]="c.registryId" [fitScore]="c.fitScore" [ptaMilk]="c.ptaMilk" [reliability]="c.reliability" />
+
+          <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md">
+            <div class="flex items-center gap-2 mb-md border-b border-outline-variant pb-sm">
+              <span class="material-symbols-outlined text-primary">psychology</span>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ 'recommendationAnalysis.whyThisBull' | transloco }}</h3>
+            </div>
+            <ul class="space-y-sm">
+              @for (reason of c.reasons; track reason.titleKey) {
+                <li class="flex gap-md items-start p-sm hover:bg-surface-container-low rounded transition-colors">
+                  <span class="material-symbols-outlined text-secondary mt-1">{{ reason.icon }}</span>
+                  <div>
+                    <span class="font-body-md text-body-md font-bold text-on-surface block">{{ reason.titleKey | transloco: reason.titleParams }}</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant">{{ reason.bodyKey | transloco: reason.bodyParams }}</span>
+                  </div>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+
+      <!-- Right column -->
+      <div class="lg:col-span-4 flex flex-col gap-lg">
+        @if (candidate(); as c) {
+          <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md">
+            <h3 class="font-headline-sm text-headline-sm text-on-surface mb-md">{{ 'recommendationAnalysis.riskAnalysis' | transloco }}</h3>
+            <div class="space-y-md">
+              <div>
+                <div class="flex justify-between items-end mb-1">
+                  <span class="font-body-md text-body-md text-on-surface-variant">{{ 'recommendationAnalysis.expectedInbreeding' | transloco }}</span>
+                  <span class="font-data-mono text-data-mono text-on-surface font-bold">{{ (c.inbreedingCoefficient * 100).toFixed(1) }}%</span>
+                </div>
+                <div class="h-2 bg-surface-container-highest rounded-full overflow-hidden">
+                  <div class="h-full bg-secondary rounded-full" [style.width.%]="(c.inbreedingCoefficient / c.inbreedingThreshold) * 100"></div>
+                </div>
+                <div class="font-body-sm text-body-sm text-on-surface-variant mt-1 text-right">
+                  {{ 'recommendationAnalysis.target' | transloco: { pct: (c.inbreedingThreshold * 100).toFixed(1) } }}
+                </div>
+              </div>
+
+              <div class="pt-sm border-t border-outline-variant">
+                <app-reliability-band [label]="'recommendationAnalysis.genomicReliability' | transloco" [value]="c.reliability" />
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">{{ 'recommendationAnalysis.reliabilityExplainer' | transloco }}</p>
+              </div>
+
+              @if (c.comparisonMethod !== 'NATIVE') {
+                <div class="pt-sm border-t border-outline-variant flex items-start gap-2">
+                  <span class="material-symbols-outlined text-on-primary-container">public</span>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">{{ 'recommendationAnalysis.crossCountryCaveat' | transloco }}</p>
+                </div>
+              }
+              @if (c.environmentCaveat) {
+                <div class="pt-sm border-t border-outline-variant flex items-start gap-2">
+                  <span class="material-symbols-outlined text-error">warning</span>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">{{ 'recommendationAnalysis.environmentCaveat' | transloco }}</p>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

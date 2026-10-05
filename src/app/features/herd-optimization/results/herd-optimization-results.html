@@ -1,0 +1,98 @@
+<div class="p-lg lg:p-xl max-w-container-max mx-auto w-full">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-xl">
+    <div>
+      <h2 class="font-display-lg text-display-lg text-primary mb-xs">{{ 'herdOptimizationResults.title' | transloco }}</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">{{ 'herdOptimizationResults.subtitle' | transloco }}</p>
+    </div>
+    <div class="flex gap-sm">
+      <button type="button" class="font-label-caps text-label-caps border border-outline text-primary px-lg py-sm rounded-full hover:bg-surface-container transition-colors uppercase tracking-widest flex items-center gap-sm">
+        <span class="material-symbols-outlined text-[16px]">download</span>
+        {{ 'herdOptimizationResults.exportPlan' | transloco }}
+      </button>
+      <button type="button" class="font-label-caps text-label-caps bg-secondary text-on-secondary px-lg py-sm rounded-full hover:opacity-90 transition-colors shadow-sm flex items-center gap-sm">
+        <span class="material-symbols-outlined text-[16px]">check_circle</span>
+        {{ 'herdOptimizationResults.confirmAll' | transloco }}
+      </button>
+    </div>
+  </div>
+
+  @if (jobStatus(); as job) {
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md mb-xl flex items-center gap-lg">
+      <div class="bg-secondary-container text-on-secondary-container p-sm rounded-full shrink-0">
+        <span class="material-symbols-outlined">task_alt</span>
+      </div>
+      <div class="flex-1">
+        <div class="flex justify-between items-center mb-1">
+          <span class="font-body-sm text-body-sm text-on-surface-variant font-bold">{{ 'herdOptimizationResults.engineCompleted' | transloco }}</span>
+          <span class="font-data-mono text-data-mono text-secondary font-bold">{{ job.percentComplete }}%</span>
+        </div>
+        <div class="w-full bg-surface-variant rounded-full h-1.5 overflow-hidden">
+          <div class="bg-secondary h-1.5 rounded-full" [style.width.%]="job.percentComplete"></div>
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">{{ job.summaryLabel | transloco }}</p>
+      </div>
+    </div>
+  }
+
+  @if (summary(); as s) {
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
+      <app-stat-card [label]="'herdOptimizationResults.totalCows' | transloco" [value]="s.totalCowsAssigned" trend="up" [trendText]="'herdOptimizationResults.ofEligible' | transloco: { percent: s.eligibleHerdPercent }" />
+      <app-stat-card [label]="'herdOptimizationResults.avgInbreeding' | transloco" [value]="s.avgExpectedInbreedingPercent + '%'" trend="down" [trendText]="'herdOptimizationResults.vsPrevious' | transloco: { delta: s.inbreedingDeltaPercent }" />
+      <app-stat-card [label]="'herdOptimizationResults.avgFitScore' | transloco" [value]="s.avgFitScore" trend="up" [trendText]="'herdOptimizationResults.improvement' | transloco: { delta: s.fitScoreDelta }" />
+    </div>
+  }
+
+  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col max-h-[600px]">
+    <div class="px-lg py-md border-b border-outline-variant bg-surface-bright flex justify-between items-center">
+      <h3 class="font-headline-sm text-headline-sm text-primary">{{ 'herdOptimizationResults.detailedAssignments' | transloco }}</h3>
+    </div>
+    <div class="overflow-x-auto flex-1">
+      <table class="w-full text-left border-collapse zebra-table">
+        <thead class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps uppercase">
+          <tr>
+            <th class="px-md py-sm font-bold">{{ 'herdOptimizationResults.cowId' | transloco }}</th>
+            <th class="px-md py-sm font-bold">{{ 'herdOptimizationResults.lactation' | transloco }}</th>
+            <th class="px-md py-sm font-bold border-l border-outline-variant">{{ 'herdOptimizationResults.assignedBull' | transloco }}</th>
+            <th class="px-md py-sm font-bold">{{ 'herdOptimizationResults.sireId' | transloco }}</th>
+            <th class="px-md py-sm font-bold border-l border-outline-variant">{{ 'herdOptimizationResults.expInbreeding' | transloco }}</th>
+            <th class="px-md py-sm font-bold">{{ 'herdOptimizationResults.fitScore' | transloco }}</th>
+            <th class="px-md py-sm font-bold text-right">{{ 'common.actions' | transloco }}</th>
+          </tr>
+        </thead>
+        <tbody class="font-body-md text-body-md">
+          @for (row of assignments(); track row.cowId) {
+            <tr class="hover:bg-surface-variant/50 transition-colors">
+              <td class="px-md py-sm font-data-mono text-data-mono font-bold text-primary">{{ row.cowId }}</td>
+              <td class="px-md py-sm text-on-surface-variant">{{ row.lactationNumber }}</td>
+              <td class="px-md py-sm border-l border-surface-container font-bold text-primary">
+                <div class="flex items-center gap-sm"><span class="w-2 h-2 rounded-full bg-secondary"></span>{{ row.assignedBullName }}</div>
+              </td>
+              <td class="px-md py-sm font-data-mono text-data-mono text-on-surface-variant">{{ row.sireId }}</td>
+              <td class="px-md py-sm border-l border-surface-container font-data-mono text-data-mono" [class]="row.inbreedingFlag ? 'text-error' : ''">
+                {{ row.expectedInbreedingPercent }}%
+                @if (row.inbreedingFlag) {
+                  <span class="material-symbols-outlined text-[14px] align-middle">warning</span>
+                }
+              </td>
+              <td class="px-md py-sm">
+                <div class="flex items-center gap-sm">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-body-sm" [class]="row.fitScore >= 90 ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-container-high text-on-surface'">
+                    {{ row.fitScore }}
+                  </div>
+                  <div class="w-24 bg-surface-variant rounded-full h-1.5 overflow-hidden">
+                    <div class="h-1.5 rounded-full" [class]="row.fitScore >= 90 ? 'bg-secondary' : 'bg-surface-tint'" [style.width.%]="row.fitScore"></div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-md py-sm text-right">
+                <button type="button" class="font-label-caps text-label-caps text-primary hover:bg-surface-container px-sm py-xs rounded transition-colors uppercase border border-transparent hover:border-outline-variant">
+                  {{ 'herdOptimizationResults.review' | transloco }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,393 @@
+{
+  "app": {
+    "name": "MooMatch",
+    "tagline": "Emparejamiento Basado en Datos"
+  },
+  "nav": {
+    "dashboard": "Panel Principal",
+    "herdManagement": "Gestión de Rebaños",
+    "cowIntake": "Ingesta de Vacas",
+    "recommendationHistory": "Historial de Recomendaciones",
+    "matingOutcomes": "Resultados de Cruzamiento",
+    "wholeHerdOptimization": "Optimización de Rebaño Completo",
+    "programConfiguration": "Configuración de Programa",
+    "userManagement": "Gestión de Usuarios",
+    "logout": "Cerrar Sesión"
+  },
+  "login": {
+    "welcomeBack": "Bienvenido de Nuevo",
+    "subtitle": "Inicia sesión para gestionar el perfil genético de tu rebaño.",
+    "workEmail": "Correo de Trabajo",
+    "password": "Contraseña",
+    "rememberDevice": "Recordar dispositivo",
+    "resetPassword": "Restablecer contraseña",
+    "accessTerminal": "Acceder",
+    "enterpriseSso": "SSO Empresarial",
+    "continueWithMicrosoft": "Continuar con Microsoft",
+    "continueWithGoogle": "Continuar con Google",
+    "dataProcessingTerms": "Términos de Procesamiento de Datos",
+    "byContinuing": "Al iniciar sesión, aceptas los",
+    "noPendingInvitation": "No se encontró una invitación pendiente para esta cuenta. Pide a tu Administrador de Granja que te invite primero.",
+    "provisionNetworkError": "No se pudo contactar al servidor (usualmente significa que el API Gateway no está corriendo, o hay un problema de CORS/red). Revisa la consola e inténtalo de nuevo.",
+    "provisionServerError": "El servidor rechazó la solicitud de inicio de sesión. Revisa la consola para más detalles e inténtalo de nuevo.",
+    "invalidCredentials": "Correo o contraseña incorrectos.",
+    "genericError": "Algo salió mal al iniciar sesión. Inténtalo de nuevo."
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "loading": "Cargando…",
+    "language": "Idioma",
+    "actions": "Acciones",
+    "remove": "Eliminar",
+    "farmLabel": "Granja"
+  },
+  "breedingObjective": {
+    "tpi": "TPI (Índice de Desempeño Total)",
+    "fertility": "Enfoque en Fertilidad",
+    "health": "Salud y Longevidad",
+    "milk": "Producción de Leche",
+    "show": "Tipo de Exposición (Conformación)",
+    "short": {
+      "TPI": "TPI",
+      "MILK": "Leche",
+      "FERTILITY": "Fert.",
+      "HEALTH": "Salud",
+      "SHOW": "Show"
+    }
+  },
+  "dashboard": {
+    "totalHerdSize": "Tamaño Total del Rebaño",
+    "thisMonth": "+{{count}} este mes",
+    "avgGeneticMerit": "Mérito Genético Promedio",
+    "ytd": "+{{points}} pts (año a la fecha)",
+    "pendingIntakes": "Ingestas Pendientes",
+    "requireGenomicSampling": "Requieren muestreo genómico",
+    "activeRecommendations": "Recomendaciones de Cruzamiento Activas",
+    "viewAllRuns": "Ver Todas las Corridas",
+    "highConfidence": "Alta Confianza",
+    "reviewNeeded": "Requiere Revisión",
+    "cows": "Vacas: {{count}}",
+    "sires": "Sementales: {{count}}",
+    "goal": "Objetivo",
+    "matchRate": "{{percent}}% de Coincidencia",
+    "geneticProgress": "Progreso Genético (Últimos 12 Meses)",
+    "recentActivity": "Actividad Reciente",
+    "activity": {
+      "genomicResults": "Resultados genómicos recibidos para {{count}} crías.",
+      "runApproved": "Corrida de cruzamiento {{run}} aprobada por el técnico {{user}}.",
+      "inbreedingAlert": "Alerta de consanguinidad detectada en el cruzamiento propuesto (Vaca {{cow}} x Semental {{sire}}).",
+      "hoursAgo": "Hace 2 horas",
+      "yesterdayAt": "Ayer"
+    },
+    "startNewRun": "Iniciar Nueva Corrida",
+    "startNewRunDesc": "Inicializa el motor de cruzamiento con criterios actualizados.",
+    "configure": "Configurar"
+  },
+  "herdList": {
+    "subtitle": "Resumen de todos los grupos activos y las métricas de optimización recientes.",
+    "createHerd": "Crear Nuevo Rebaño",
+    "runOptimization": "Ejecutar Optimización de Rebaño Completo",
+    "activeHerds": "Rebaños Activos",
+    "herdName": "Nombre del Rebaño",
+    "headcount": "Cantidad de Cabezas",
+    "avgTpi": "TPI Promedio",
+    "lastRun": "Última Corrida",
+    "status": {
+      "label": "Estado",
+      "optimized": "Optimizado",
+      "needsUpdate": "Necesita Actualización",
+      "reviewGenetics": "Revisar Genética"
+    },
+    "engineStatus": "Estado del Motor",
+    "engineOnline": "Motor Predictivo en Línea",
+    "nextRun": "Próxima corrida automática programada para las 02:00 AM.",
+    "tpiTrend": "Tendencia de TPI del Rebaño",
+    "today0430": "Hoy, 04:30",
+    "oct24": "24 oct. 2023",
+    "oct12": "12 oct. 2023"
+  },
+  "cowIntake": {
+    "title": "Ingesta Manual de Vaca",
+    "subtitle": "Ingresa datos fenotípicos y clasificaciones lineales para la evaluación genética.",
+    "discardDraft": "Descartar Borrador",
+    "saveAndAnalyze": "Guardar y Analizar",
+    "identification": "Identificación",
+    "cowIdLabel": "ID de Vaca / Arete",
+    "registrationNameLabel": "Nombre de Registro (Opcional)",
+    "dobLabel": "Fecha de Nacimiento",
+    "breedingObjective": "Objetivo de Cruzamiento",
+    "breedingObjectiveDesc": "Selecciona el índice de evaluación principal. Esto ajustará los objetivos de 'zona ideal' en los rasgos lineales.",
+    "tab": {
+      "linear": "Clasificación Lineal",
+      "production": "Producción",
+      "reproductive": "Estado Reproductivo",
+      "health": "Eventos de Salud"
+    },
+    "linearClassification": "Clasificación Lineal (Escala 1-9)",
+    "sweetSpotHint": "Los objetivos de 'zona ideal' se muestran en verde según el objetivo seleccionado.",
+    "category": {
+      "frame": "Rasgos de Marco",
+      "dairyStrength": "Rasgos de Fuerza Lechera",
+      "feetLegs": "Rasgos de Patas y Pezuñas",
+      "udder": "Rasgos de Ubre",
+      "bodyCondition": "Condición Corporal"
+    },
+    "production": {
+      "title": "Registro de Producción",
+      "lactationNumber": "Número de Lactancia",
+      "daysInMilk": "Días en Leche",
+      "milkYieldKg": "Producción de Leche (kg)",
+      "fatPercent": "% de Grasa",
+      "proteinPercent": "% de Proteína",
+      "solidsPercent": "% de Sólidos",
+      "somaticCellScore": "Puntaje de Células Somáticas",
+      "measurementBasis": "Base de Medición"
+    },
+    "measurementBasis": {
+      "CURRENT_TEST_DAY": "Día de Prueba Actual",
+      "LACTATION_AVERAGE": "Promedio de Lactancia",
+      "MATURE_EQUIVALENT_305D": "Equivalente Maduro (305 días)"
+    },
+    "reproductive": {
+      "title": "Estado Reproductivo",
+      "status": "Estado",
+      "lastCalvingDate": "Fecha del Último Parto",
+      "daysOpen": "Días Abiertos"
+    },
+    "reproductiveStatus": {
+      "OPEN": "Vacía",
+      "BRED": "Cubierta",
+      "PREGNANT": "Preñada",
+      "DRY": "Seca",
+      "FRESH": "Fresca"
+    },
+    "health": {
+      "title": "Eventos de Salud",
+      "addEvent": "Agregar Evento",
+      "empty": "Aún no hay eventos de salud registrados.",
+      "eventType": "Tipo de Evento",
+      "severity": "Severidad",
+      "occurredAt": "Fecha del Evento"
+    },
+    "healthEventType": {
+      "MASTITIS": "Mastitis",
+      "LAMENESS": "Cojera",
+      "KETOSIS": "Cetosis",
+      "DISPLACED_ABOMASUM": "Desplazamiento de Abomaso",
+      "MILK_FEVER": "Fiebre de Leche",
+      "RETAINED_PLACENTA": "Retención de Placenta",
+      "METRITIS": "Metritis",
+      "OTHER": "Otro"
+    },
+    "severity": {
+      "MILD": "Leve",
+      "MODERATE": "Moderada",
+      "SEVERE": "Severa"
+    },
+    "ofTraitsClassified": "de {{total}} rasgos clasificados"
+  },
+  "recommendationAnalysis": {
+    "title": "Recomendación de Cruzamiento: Vaca {{cow}}",
+    "lactation": "Lactancia {{n}}",
+    "dataDaysAgo": "Datos de hace 2 días",
+    "discard": "Descartar",
+    "confirmMating": "Confirmar Cruzamiento",
+    "whyThisBull": "Por Qué Este Toro",
+    "reason": {
+      "rumpAngle": {
+        "title": "Corrige Ángulo de Grupa Bajo",
+        "body": "Esta vaca muestra una tendencia a caderas altas. Este toro transmite fuertemente rasgos óptimos de grupa inclinada."
+      },
+      "milkYield": {
+        "title": "Mejora la Producción de Leche",
+        "body": "Compensa el potencial de producción de la vaca, ligeramente por debajo del promedio del rebaño."
+      },
+      "health": {
+        "title": "Mantiene Rasgos de Salud Fuertes",
+        "body": "Asegura que la longevidad y la resistencia a la mastitis se mantengan en el cuartil superior."
+      }
+    },
+    "riskAnalysis": "Análisis de Riesgo del Cruzamiento",
+    "expectedInbreeding": "Consanguinidad Esperada",
+    "target": "Objetivo < {{pct}}%",
+    "genomicReliability": "Confiabilidad Genómica",
+    "reliabilityExplainer": "La confianza de la predicción es extremadamente alta, basada en pruebas genómicas extensas y datos de progenie de este semental.",
+    "crossCountryCaveat": "Esta comparación usa un valor convertido por MACE o aproximado por percentil — la confianza entre países es menor.",
+    "environmentCaveat": "La prueba de este toro proviene de confinamiento; tu rebaño es a pastoreo, por lo que los resultados pueden variar."
+  },
+  "recommendationHistory": {
+    "subtitle": "Rastro de auditoría de todas las decisiones de cruzamiento genético del rebaño.",
+    "exportCsv": "Exportar CSV",
+    "cowId": "ID de Vaca",
+    "date": "Fecha",
+    "objective": "Objetivo de Cruzamiento",
+    "recBull": "Toro Recomendado",
+    "status": {
+      "label": "Estado",
+      "draft": "Borrador",
+      "scored": "Puntuada",
+      "pending": "Pendiente",
+      "confirmed": "Confirmada",
+      "discarded": "Descartada",
+      "noMatch": "Sin Coincidencia",
+      "closed": "Cerrada"
+    },
+    "user": "Usuario",
+    "detailPlaceholder": "El rastro de auditoría completo de {{id}} aparecerá aquí una vez que la vista de detalle esté conectada."
+  },
+  "matingOutcomes": {
+    "subtitle": "Registra los detalles del nacimiento y valida las predicciones genéticas para los cruzamientos confirmados que ya alcanzaron la madurez gestacional.",
+    "awaitingLogging": "{{count}} PENDIENTES DE REGISTRO",
+    "statusCol": "Estado",
+    "damId": "ID de Madre",
+    "sireId": "ID de Semental",
+    "matingDate": "Fecha de Cruzamiento",
+    "estDue": "Parto Estimado",
+    "logOutcome": "Registrar Resultado",
+    "select": "Seleccionar",
+    "empty": "No hay cruzamientos pendientes de resultado actualmente.",
+    "logOutcomeFor": "Registrar Resultado: {{dam}}",
+    "matingWith": "Cruzamiento con {{sire}}",
+    "calfDetails": "Detalles de la Cría",
+    "outcomeStatus": "Estado del Resultado",
+    "outcome": {
+      "liveBirthHealthy": "Nacimiento Vivo - Saludable",
+      "complications": "Nacimiento Vivo - Complicaciones",
+      "stillborn": "Mortinato",
+      "aborted": "Aborto"
+    },
+    "birthDate": "Fecha de Nacimiento",
+    "sex": "Sexo",
+    "heifer": "Hembra",
+    "bull": "Macho",
+    "assignCalfId": "Asignar ID de Cría (Opcional)",
+    "predictedYield": "Rendimiento Genético Predicho",
+    "milkVolume": "Volumen de Leche (PTA)",
+    "productiveLife": "Vida Productiva",
+    "genomicKitNote": "Se solicitará automáticamente un kit de muestra genómica al guardar un resultado de nacimiento vivo y saludable.",
+    "saveOutcome": "Guardar Resultado"
+  },
+  "programConfig": {
+    "subtitle": "Gestiona los umbrales genéticos centrales y los objetivos de cruzamiento de tu rebaño.",
+    "discardChanges": "Descartar Cambios",
+    "saveConfiguration": "Guardar Configuración",
+    "conflictReloading": "Otra persona modificó esta configuración. Se está recargando la última versión — vuelve a aplicar tus cambios.",
+    "geneticThresholds": "Umbrales Genéticos",
+    "inbreedingLimit": "Límite de Coeficiente de Consanguinidad",
+    "inbreedingLimitDesc": "Coeficiente de consanguinidad máximo aceptable para los cruzamientos recomendados.",
+    "reliabilityFloor": "Piso de Confianza Total",
+    "reliabilityFloorDesc": "Confiabilidad mínima para que un semental se considere 'probado' en los reportes.",
+    "objectiveWeights": "Pesos de Objetivos de Cruzamiento",
+    "tpiDistribution": "Distribución de Rasgos del TPI",
+    "configHistory": "Historial de Configuración",
+    "history": {
+      "changeLine": "{{field}} cambió de {{oldValue}} a {{newValue}}",
+      "daysAgo": "Hace 2 días",
+      "weeksAgo": "Hace 14 días",
+      "monthAgo": "Hace 1 mes"
+    },
+    "distribution": {
+      "production": "Producción (Rendimiento)",
+      "healthFertility": "Salud y Fertilidad",
+      "type": "Tipo (Conformación)"
+    }
+  },
+  "userManagement": {
+    "subtitle": "Gestiona el acceso del equipo, los roles y los permisos de rebaño de tu granja.",
+    "inviteUser": "Invitar Usuario",
+    "email": "Correo",
+    "role": "Rol",
+    "roleBreederTech": "Criador/Técnico",
+    "roleFarmAdmin": "Administrador de Granja",
+    "sendInvite": "Enviar Invitación",
+    "totalUsers": "Usuarios Totales",
+    "activeUsers": "Técnicos Activos",
+    "pendingInvites": "Invitaciones Pendientes",
+    "user": "Usuario",
+    "herdAccess": "Acceso a Rebaños",
+    "statusCol": "Estado",
+    "lastLogin": "Último Acceso",
+    "status": {
+      "active": "Activo",
+      "deactivated": "Desactivado",
+      "pending": "Invitación Pendiente"
+    },
+    "allHerds": "Todos los Rebaños",
+    "editRole": "Editar Rol",
+    "deactivate": "Desactivar",
+    "reactivate": "Reactivar"
+  },
+  "herdOptimizationSetup": {
+    "subtitle": "Configura los parámetros para la corrida de cruzamiento por lotes. Establece restricciones para asegurar la diversidad genética y cumplir los objetivos de inventario.",
+    "step1": "1. Objetivo de Cruzamiento",
+    "objective": {
+      "TPI": {
+        "title": "Enfoque TPI",
+        "desc": "Maximiza el Índice de Desempeño Total. Prioriza la producción y el tipo funcional."
+      },
+      "FERTILITY": {
+        "title": "Fertilidad Plus",
+        "desc": "Pondera fuertemente la Tasa de Preñez de Hijas y la Facilidad de Parto."
+      },
+      "CUSTOM": {
+        "title": "Índice Personalizado",
+        "desc": "Usa los multiplicadores de peso de rasgos específicos de la granja definidos en la configuración."
+      }
+    },
+    "step2": "2. Selección del Pool de Toros",
+    "activeInventory": "Sementales en Inventario Activo",
+    "siresAvailable": "{{count}} sementales actualmente disponibles en el tanque de semen.",
+    "editPool": "Editar Pool",
+    "sireId": "ID de Semental",
+    "maxMatings": "Cruzamientos Máximos",
+    "inventoryStraws": "Inventario (Pajillas)",
+    "step3": "3. Restricciones de Consanguinidad",
+    "maxInbreeding": "% Máximo de Consanguinidad Esperada:",
+    "summary": "Resumen de Configuración",
+    "eligibleFemales": "Hembras Elegibles:",
+    "siresInPool": "Sementales en el Pool:",
+    "totalStraws": "Total de Pajillas Disponibles:",
+    "estComputeTime": "Tiempo de Cómputo Estimado:",
+    "replaceWarning": "Ejecutar esta optimización reemplazará cualquier borrador sin guardar de la ventana de cruzamiento actual.",
+    "start": "Iniciar Optimización"
+  },
+  "herdOptimizationResults": {
+    "title": "Resultados de la Optimización",
+    "subtitle": "Revisa el plan de cruzamiento generado para el ciclo actual.",
+    "exportPlan": "Exportar Plan",
+    "confirmAll": "Confirmar Todos los Cruzamientos",
+    "engineCompleted": "Motor de Optimización Completado",
+    "processedSummary": "Se procesaron 450 hembras activas contra 120 sementales candidatos en 14.2s.",
+    "totalCows": "Total de Vacas Asignadas",
+    "ofEligible": "{{percent}}% del rebaño elegible",
+    "avgInbreeding": "Consanguinidad Esperada Promedio",
+    "vsPrevious": "{{delta}}% vs. la generación anterior",
+    "avgFitScore": "Fit Score Promedio",
+    "improvement": "+{{delta}} pts de mejora",
+    "detailedAssignments": "Asignaciones Detalladas de Cruzamiento",
+    "cowId": "ID de Vaca",
+    "lactation": "Lactancia",
+    "assignedBull": "Toro Asignado",
+    "sireId": "ID de Semental",
+    "expInbreeding": "Consang. Esperada",
+    "fitScore": "Fit Score",
+    "review": "Revisar"
+  },
+  "herdOptimizationLanding": {
+    "subtitle": "Ejecuta la optimización de cruzamiento por lotes en todo un rebaño, o revisa las corridas recientes.",
+    "startNew": "Iniciar Nueva Optimización",
+    "startNewDesc": "Configura una nueva corrida de cruzamiento por lotes para un rebaño.",
+    "configure": "Configurar",
+    "recentJobs": "Trabajos Recientes",
+    "empty": "Aún no hay trabajos de optimización.",
+    "status": {
+      "QUEUED": "En Cola",
+      "RUNNING": "Ejecutando",
+      "COMPLETE": "Completo",
+      "FAILED": "Fallido"
+    },
+    "daysAgo": "Hace 3 días",
+    "monthAgo": "Hace 1 mes"
+  }
+}

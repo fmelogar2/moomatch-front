@@ -1,0 +1,127 @@
+<div class="min-h-screen flex items-center justify-center font-body-md bg-surface text-on-surface p-gutter">
+  <div
+    class="max-w-[1000px] w-full flex flex-col md:flex-row bg-surface-container-lowest rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-outline-variant overflow-hidden"
+  >
+    <!-- Left: Login form -->
+    <div class="flex-1 p-xl md:p-[48px] flex flex-col justify-center">
+      <div class="mb-xl flex items-center gap-sm">
+        <img src="/branding/moomatch-emblem.png" alt="" class="w-9 h-9" />
+        <h1 class="font-display-lg text-display-lg text-primary tracking-tight">{{ 'app.name' | transloco }}</h1>
+      </div>
+
+      <div class="mb-lg">
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-sm">{{ 'login.welcomeBack' | transloco }}</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">{{ 'login.subtitle' | transloco }}</p>
+      </div>
+
+      @if (errorKey()) {
+        <div class="mb-md p-sm rounded bg-error-container text-on-error-container text-body-sm">
+          {{ errorKey()! | transloco }}
+        </div>
+      }
+      @if (resetSent()) {
+        <div class="mb-md p-sm rounded bg-secondary-container text-on-secondary-container text-body-sm">
+          {{ 'login.resetPassword' | transloco }}: OK — check your email if an account exists for that address.
+        </div>
+      }
+
+      <form class="space-y-md" (ngSubmit)="submitEmailLogin()">
+        <div>
+          <label class="block font-label-caps text-label-caps text-on-surface-variant uppercase mb-xs" for="email">
+            {{ 'login.workEmail' | transloco }}
+          </label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline text-[20px]">mail</span>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              [(ngModel)]="email"
+              placeholder="technician&#64;farm.com"
+              class="w-full bg-surface-container-low border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary py-2 pl-[36px] pr-sm font-body-md text-body-md text-on-surface placeholder-outline"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-label-caps text-label-caps text-on-surface-variant uppercase mb-xs" for="password">
+            {{ 'login.password' | transloco }}
+          </label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline text-[20px]">lock</span>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              [(ngModel)]="password"
+              placeholder="••••••••"
+              class="w-full bg-surface-container-low border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary py-2 pl-[36px] pr-sm font-body-md text-body-md text-on-surface placeholder-outline"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <label class="flex items-center gap-xs text-body-sm text-on-surface-variant">
+            <input type="checkbox" name="remember" class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary bg-surface-container-low" />
+            {{ 'login.rememberDevice' | transloco }}
+          </label>
+          <button type="button" class="font-body-sm text-body-sm text-primary hover:underline" (click)="requestPasswordReset()">
+            {{ 'login.resetPassword' | transloco }}
+          </button>
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="submitting()"
+          class="w-full bg-primary text-on-primary py-2 px-md rounded font-body-md text-body-md font-medium hover:bg-primary-container transition-colors disabled:opacity-60"
+        >
+          {{ 'login.accessTerminal' | transloco }}
+        </button>
+      </form>
+
+      <div class="my-lg flex items-center">
+        <div class="flex-grow border-t border-outline-variant"></div>
+        <span class="px-sm font-label-caps text-label-caps text-outline uppercase">{{ 'login.enterpriseSso' | transloco }}</span>
+        <div class="flex-grow border-t border-outline-variant"></div>
+      </div>
+
+      <div class="space-y-sm">
+        <button
+          type="button"
+          [disabled]="submitting()"
+          (click)="continueWithMicrosoft()"
+          class="w-full bg-surface-container-low border border-outline-variant text-on-surface py-2 px-md rounded font-body-md text-body-md font-medium hover:bg-surface-container-high transition-colors flex items-center justify-center gap-sm disabled:opacity-60"
+        >
+          <span class="material-symbols-outlined text-[20px]">window</span>
+          {{ 'login.continueWithMicrosoft' | transloco }}
+        </button>
+        <button
+          type="button"
+          [disabled]="submitting()"
+          (click)="continueWithGoogle()"
+          class="w-full bg-surface-container-low border border-outline-variant text-on-surface py-2 px-md rounded font-body-md text-body-md font-medium hover:bg-surface-container-high transition-colors flex items-center justify-center gap-sm disabled:opacity-60"
+        >
+          <span class="material-symbols-outlined text-[20px]">g_mobiledata</span>
+          {{ 'login.continueWithGoogle' | transloco }}
+        </button>
+      </div>
+
+      <p class="mt-xl text-center font-body-sm text-body-sm text-on-surface-variant">
+        {{ 'login.byContinuing' | transloco }}
+        <a class="text-primary hover:underline" href="#">{{ 'login.dataProcessingTerms' | transloco }}</a>.
+      </p>
+    </div>
+
+    <!-- Right: brand panel -->
+    <div class="hidden md:flex md:flex-1 bg-primary relative items-center justify-center p-xl">
+      <div class="text-center">
+        <img src="/branding/moomatch-logo-full.png" alt="MooMatch" class="w-56 mx-auto" />
+        <p class="text-on-primary text-body-md mt-md max-w-xs mx-auto">
+          {{ 'app.tagline' | transloco }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

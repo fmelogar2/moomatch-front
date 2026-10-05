@@ -1,0 +1,75 @@
+<div class="min-h-screen flex bg-background text-on-surface font-body-md">
+  <!-- Sidenav -->
+  <aside class="w-80 shrink-0 bg-primary-container text-on-primary flex flex-col">
+    <div class="flex items-center gap-sm p-lg border-b border-white/10">
+      <img src="/branding/moomatch-emblem.png" alt="" class="w-9 h-9" />
+      <div>
+        <p class="font-headline-sm text-headline-sm leading-none">{{ 'app.name' | transloco }}</p>
+        <p class="font-label-caps text-label-caps text-on-primary-container uppercase tracking-wide">
+          {{ 'app.tagline' | transloco }}
+        </p>
+      </div>
+    </div>
+
+    @if (farm(); as f) {
+      <div class="flex items-center gap-xs px-lg py-sm border-b border-white/10 bg-black/10">
+        <span class="material-symbols-outlined text-[18px] text-on-primary-container">home_work</span>
+        <p class="text-body-sm truncate" [title]="f.name">{{ f.name }}</p>
+      </div>
+    }
+
+    <nav class="flex-1 overflow-y-auto py-sm">
+      @for (item of visibleNavItems; track item.path) {
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="bg-white/10 border-r-4 border-secondary"
+          class="flex items-center gap-sm px-lg py-2 text-body-md hover:bg-white/5 transition-colors"
+        >
+          <span class="material-symbols-outlined text-[20px]">{{ item.icon }}</span>
+          <span>{{ item.labelKey | transloco }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="p-md border-t border-white/10 space-y-sm">
+      <div class="flex items-center gap-xs">
+        <button
+          type="button"
+          class="px-sm py-1 rounded text-body-sm"
+          [class]="currentLang === 'en' ? 'bg-white/15 font-semibold' : 'text-on-primary-container'"
+          (click)="setLanguage('en')"
+        >
+          EN
+        </button>
+        <button
+          type="button"
+          class="px-sm py-1 rounded text-body-sm"
+          [class]="currentLang === 'es' ? 'bg-white/15 font-semibold' : 'text-on-primary-container'"
+          (click)="setLanguage('es')"
+        >
+          ES
+        </button>
+      </div>
+
+      @if (profile(); as p) {
+        <div class="flex items-center gap-sm">
+          <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-on-secondary text-body-sm font-semibold">
+            {{ p.email.charAt(0).toUpperCase() }}
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="text-body-sm truncate">{{ p.email }}</p>
+            <p class="text-label-caps text-on-primary-container uppercase">{{ p.role }}</p>
+          </div>
+          <button type="button" (click)="logout()" class="text-on-primary-container hover:text-on-primary" [title]="'nav.logout' | transloco">
+            <span class="material-symbols-outlined text-[20px]">logout</span>
+          </button>
+        </div>
+      }
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main class="flex-1 overflow-y-auto">
+    <router-outlet />
+  </main>
+</div>

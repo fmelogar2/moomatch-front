@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+/*
+ * MooMatch design tokens — ported from docs/design/moomatch/DESIGN.md, with primary/secondary
+ * overridden to the #12314E / #127F45 hybrid that 11 of 13 Stitch prototypes converged on
+ * (docs/design/deep_harbor_institutional/DESIGN.md's values layered onto moomatch's token set).
+ * See moomatch-service/docs/design/ survey notes for the full reconciliation rationale.
+ */
+@theme {
+  /* Color roles (Material-Design-3-style semantic scale) */
+  --color-primary: #12314e;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #002147;
+  --color-on-primary-container: #708ab5;
+  --color-primary-fixed: #d6e3ff;
+  --color-primary-fixed-dim: #aec7f6;
+  --color-on-primary-fixed: #001b3d;
+  --color-on-primary-fixed-variant: #2d476f;
+
+  --color-secondary: #127f45;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #aeeecb;
+  --color-on-secondary-container: #316e52;
+  --color-secondary-fixed: #b1f0ce;
+  --color-secondary-fixed-dim: #95d4b3;
+  --color-on-secondary-fixed: #002114;
+  --color-on-secondary-fixed-variant: #0e5138;
+
+  --color-tertiary: #000b1b;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #122236;
+  --color-on-tertiary-container: #7a8aa2;
+  --color-tertiary-fixed: #d3e4fe;
+  --color-tertiary-fixed-dim: #b7c8e1;
+  --color-on-tertiary-fixed: #0b1c30;
+  --color-on-tertiary-fixed-variant: #38485d;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  --color-surface: #f7f9fb;
+  --color-surface-bright: #f7f9fb;
+  --color-surface-dim: #d8dadc;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f4f6;
+  --color-surface-container: #eceef0;
+  --color-surface-container-high: #e6e8ea;
+  --color-surface-container-highest: #e0e3e5;
+  --color-surface-variant: #e0e3e5;
+  --color-surface-tint: #465f88;
+  --color-on-surface: #191c1e;
+  --color-on-surface-variant: #44474e;
+  --color-inverse-surface: #2d3133;
+  --color-inverse-on-surface: #eff1f3;
+  --color-inverse-primary: #aec7f6;
+
+  --color-background: #f7f9fb;
+  --color-on-background: #191c1e;
+  --color-outline: #74777f;
+  --color-outline-variant: #c4c6cf;
+
+  /* Typography */
+  --font-display-lg: "Inter", sans-serif;
+  --font-headline-md: "Inter", sans-serif;
+  --font-headline-sm: "Inter", sans-serif;
+  --font-body-lg: "Inter", sans-serif;
+  --font-body-md: "Inter", sans-serif;
+  --font-body-sm: "Inter", sans-serif;
+  --font-label-caps: "Inter", sans-serif;
+  --font-data-mono: "JetBrains Mono", monospace;
+
+  --text-display-lg: 32px;
+  --text-display-lg--line-height: 40px;
+  --text-display-lg--font-weight: 700;
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-md--font-weight: 600;
+  --text-headline-sm: 20px;
+  --text-headline-sm--line-height: 28px;
+  --text-headline-sm--font-weight: 600;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 24px;
+  --text-body-md: 14px;
+  --text-body-md--line-height: 20px;
+  --text-body-sm: 12px;
+  --text-body-sm--line-height: 16px;
+  --text-label-caps: 11px;
+  --text-label-caps--line-height: 16px;
+  --text-label-caps--letter-spacing: 0.05em;
+  --text-label-caps--font-weight: 700;
+  --text-data-mono: 13px;
+  --text-data-mono--line-height: 16px;
+  --text-data-mono--font-weight: 500;
+
+  /* Radius */
+  --radius-DEFAULT: 0.125rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+  --radius-full: 0.75rem;
+
+  /* Spacing (named, matches the Stitch prototypes' utility classes: p-gutter, gap-sm, etc.) */
+  --spacing-unit: 4px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-gutter: 16px;
+  --spacing-container-max: 1440px;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-body-md);
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+/* Shared data-table look, matching the Stitch prototypes' .zebra-table/.dense-cell pattern —
+   used directly by each screen's own <table> markup rather than a generic table component,
+   since column shapes differ too much per screen to be worth abstracting (see docs/design survey). */
+.zebra-table thead {
+  position: sticky;
+  top: 0;
+  background: var(--color-surface-container-lowest);
+  z-index: 1;
+}
+
+.zebra-table tbody tr:nth-child(even) {
+  background: var(--color-surface-container-low);
+}
+
+.zebra-table tbody tr:hover {
+  background: var(--color-surface-container-high);
+}
+
+.dense-cell {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--text-body-sm);
+}

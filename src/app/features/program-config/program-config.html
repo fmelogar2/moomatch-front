@@ -1,0 +1,98 @@
+@if (isAdmin()) {
+  <main class="flex-1 p-lg max-w-container-max mx-auto">
+    <div class="flex justify-between items-end mb-lg flex-wrap gap-md">
+      <div>
+        <h1 class="font-display-lg text-display-lg text-on-surface">{{ 'nav.programConfiguration' | transloco }}</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-1">{{ 'programConfig.subtitle' | transloco }}</p>
+      </div>
+      <div class="flex gap-3">
+        <button type="button" (click)="discard()" class="px-4 py-2 border border-outline text-on-surface rounded-md font-body-md hover:bg-surface-container transition-colors">
+          {{ 'programConfig.discardChanges' | transloco }}
+        </button>
+        <button type="button" [disabled]="saving()" (click)="save()" class="px-4 py-2 bg-secondary text-on-secondary rounded-md font-body-md hover:opacity-90 transition-colors shadow-sm disabled:opacity-60">
+          {{ 'programConfig.saveConfiguration' | transloco }}
+        </button>
+      </div>
+    </div>
+
+    @if (conflictMessage()) {
+      <div class="mb-md p-sm rounded bg-error-container text-on-error-container text-body-sm">{{ conflictMessage()! | transloco }}</div>
+    }
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+      <div class="lg:col-span-8 flex flex-col gap-lg">
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg">
+          <div class="flex items-center gap-2 mb-md border-b border-surface-container-high pb-sm">
+            <span class="material-symbols-outlined text-secondary">tune</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ 'programConfig.geneticThresholds' | transloco }}</h3>
+          </div>
+          <div class="space-y-xl mt-md">
+            <div>
+              <div class="flex justify-between items-center mb-sm">
+                <label class="font-body-md text-body-md font-semibold text-on-surface">{{ 'programConfig.inbreedingLimit' | transloco }}</label>
+                <span class="font-data-mono text-data-mono text-secondary bg-secondary-container/30 px-2 py-1 rounded">{{ inbreedingThreshold }}%</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mb-3">{{ 'programConfig.inbreedingLimitDesc' | transloco }}</p>
+              <input type="range" min="0" max="25" step="0.25" [(ngModel)]="inbreedingThreshold" name="inbreedingThreshold" class="w-full accent-secondary" />
+              <div class="flex justify-between font-label-caps text-label-caps text-on-surface-variant mt-1"><span>0%</span><span>25%</span></div>
+            </div>
+            <div class="pt-sm">
+              <div class="flex justify-between items-center mb-sm">
+                <label class="font-body-md text-body-md font-semibold text-on-surface">{{ 'programConfig.reliabilityFloor' | transloco }}</label>
+                <span class="font-data-mono text-data-mono text-on-surface bg-surface-variant px-2 py-1 rounded">{{ reliabilityFloor }}%</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mb-3">{{ 'programConfig.reliabilityFloorDesc' | transloco }}</p>
+              <input type="range" min="0" max="100" step="1" [(ngModel)]="reliabilityFloor" name="reliabilityFloor" class="w-full accent-secondary" />
+              <div class="flex justify-between font-label-caps text-label-caps text-on-surface-variant mt-1"><span>0%</span><span>100%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg">
+          <div class="flex items-center justify-between mb-md border-b border-surface-container-high pb-sm">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary">balance</span>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ 'programConfig.objectiveWeights' | transloco }}</h3>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-sm mb-md">
+            @for (obj of objectiveCodes; track obj) {
+              <div
+                (click)="selectObjective(obj)"
+                class="border p-3 rounded-md text-center cursor-pointer transition-colors"
+                [class]="activeObjective() === obj ? 'border-2 border-secondary bg-secondary-container/10' : 'border-outline-variant hover:bg-surface-container'"
+              >
+                <p class="font-headline-sm text-headline-sm" [class]="activeObjective() === obj ? 'text-secondary' : 'text-on-surface'">{{ 'breedingObjective.short.' + obj | transloco }}</p>
+                <p class="font-label-caps text-label-caps text-on-surface-variant mt-1">{{ 'breedingObjective.' + obj.toLowerCase() | transloco }}</p>
+              </div>
+            }
+          </div>
+          <div class="bg-surface p-4 rounded border border-surface-container-high mt-4">
+            <h4 class="font-body-md text-body-md font-semibold mb-3">{{ 'programConfig.tpiDistribution' | transloco }}</h4>
+            <app-echart [options]="chartOptions()" [height]="140" />
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-4 flex flex-col gap-lg">
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg h-full">
+          <div class="flex items-center gap-2 mb-md border-b border-surface-container-high pb-sm">
+            <span class="material-symbols-outlined text-on-surface-variant">history</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ 'programConfig.configHistory' | transloco }}</h3>
+          </div>
+          <div class="relative pl-4 border-l-2 border-surface-container-high space-y-6 mt-4">
+            @for (entry of history(); track entry.id) {
+              <div class="relative">
+                <div class="absolute w-3 h-3 bg-secondary rounded-full -left-[23px] top-1 border-2 border-surface-container-lowest"></div>
+                <p class="font-body-sm text-body-sm text-on-surface">
+                  {{ 'programConfig.history.changeLine' | transloco: { field: entry.field, oldValue: entry.oldValue, newValue: entry.newValue } }}
+                </p>
+                <p class="font-label-caps text-label-caps text-on-surface-variant mt-1">{{ entry.changedByName }} • {{ entry.changedAtLabel | transloco }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+}

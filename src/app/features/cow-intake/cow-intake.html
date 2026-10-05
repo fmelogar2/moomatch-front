@@ -1,0 +1,235 @@
+<div class="flex flex-col min-h-full">
+  <header class="px-xl py-lg border-b border-outline-variant bg-surface-container-lowest sticky top-0 z-10 flex justify-between items-end flex-wrap gap-md">
+    <div>
+      <h1 class="font-display-lg text-display-lg text-on-surface mb-1">{{ 'cowIntake.title' | transloco }}</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant">{{ 'cowIntake.subtitle' | transloco }}</p>
+    </div>
+    <div class="flex gap-md">
+      <button type="button" (click)="discardDraft()" class="px-md py-sm font-label-caps text-label-caps text-primary border border-outline rounded hover:bg-surface-container-low transition-colors">
+        {{ 'cowIntake.discardDraft' | transloco }}
+      </button>
+      <button type="button" [disabled]="saving()" (click)="saveAndAnalyze()" class="px-md py-sm font-label-caps text-label-caps bg-primary text-on-primary rounded hover:bg-primary-container transition-colors disabled:opacity-60">
+        {{ 'cowIntake.saveAndAnalyze' | transloco }}
+      </button>
+    </div>
+  </header>
+
+  <div class="p-xl max-w-container-max mx-auto w-full grid grid-cols-12 gap-lg flex-grow">
+    <!-- Left column -->
+    <div class="col-span-12 lg:col-span-4 flex flex-col gap-lg">
+      <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+        <h2 class="font-headline-sm text-headline-sm text-on-surface mb-md">{{ 'cowIntake.identification' | transloco }}</h2>
+        <div class="flex flex-col gap-md">
+          <div>
+            <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs" for="cow-id">{{ 'cowIntake.cowIdLabel' | transloco }}</label>
+            <input id="cow-id" name="cow-id" type="text" [(ngModel)]="identifier" placeholder="US 123456789"
+              class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" />
+          </div>
+          <div>
+            <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs" for="registration-name">{{ 'cowIntake.registrationNameLabel' | transloco }}</label>
+            <input id="registration-name" name="registration-name" type="text" [(ngModel)]="registrationName"
+              class="w-full font-body-sm text-body-sm bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" />
+          </div>
+          <div>
+            <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs" for="dob">{{ 'cowIntake.dobLabel' | transloco }}</label>
+            <input id="dob" name="dob" type="date" [(ngModel)]="dateOfBirth"
+              class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none text-on-surface" />
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm">
+        <h2 class="font-headline-sm text-headline-sm text-on-surface mb-sm">{{ 'cowIntake.breedingObjective' | transloco }}</h2>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-md">{{ 'cowIntake.breedingObjectiveDesc' | transloco }}</p>
+        <select id="objective-selector" name="objective" [(ngModel)]="objective"
+          class="w-full font-body-md text-body-md bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none text-on-surface">
+          <option value="TPI">{{ 'breedingObjective.tpi' | transloco }}</option>
+          <option value="FERTILITY">{{ 'breedingObjective.fertility' | transloco }}</option>
+          <option value="HEALTH">{{ 'breedingObjective.health' | transloco }}</option>
+          <option value="MILK">{{ 'breedingObjective.milk' | transloco }}</option>
+          <option value="SHOW">{{ 'breedingObjective.show' | transloco }}</option>
+        </select>
+      </section>
+    </div>
+
+    <!-- Right column: tabbed intake sections -->
+    <div class="col-span-12 lg:col-span-8">
+      <section class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm h-full flex flex-col">
+        <div class="border-b border-outline-variant bg-surface-container-low rounded-t-xl flex flex-wrap gap-1 p-xs">
+          <button type="button" (click)="setTab('linear')" class="px-md py-sm rounded font-label-caps text-label-caps transition-colors" [class]="activeTab() === 'linear' ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:bg-surface-container-high'">
+            {{ 'cowIntake.tab.linear' | transloco }}
+          </button>
+          <button type="button" (click)="setTab('production')" class="px-md py-sm rounded font-label-caps text-label-caps transition-colors" [class]="activeTab() === 'production' ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:bg-surface-container-high'">
+            {{ 'cowIntake.tab.production' | transloco }}
+          </button>
+          <button type="button" (click)="setTab('reproductive')" class="px-md py-sm rounded font-label-caps text-label-caps transition-colors" [class]="activeTab() === 'reproductive' ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:bg-surface-container-high'">
+            {{ 'cowIntake.tab.reproductive' | transloco }}
+          </button>
+          <button type="button" (click)="setTab('health')" class="px-md py-sm rounded font-label-caps text-label-caps transition-colors" [class]="activeTab() === 'health' ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:bg-surface-container-high'">
+            {{ 'cowIntake.tab.health' | transloco }}
+          </button>
+        </div>
+
+        <div class="p-lg overflow-y-auto flex-grow">
+          @if (activeTab() === 'linear') {
+            <div class="mb-md flex justify-between items-center">
+              <h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-sm">
+                <span class="material-symbols-outlined text-primary">linear_scale</span>
+                {{ 'cowIntake.linearClassification' | transloco }}
+              </h2>
+              <span class="font-body-sm text-body-sm text-on-surface-variant">{{ 'cowIntake.sweetSpotHint' | transloco }}</span>
+            </div>
+            <div class="flex flex-col gap-xl">
+              @for (category of categories; track category) {
+                <div>
+                  <h3 class="font-label-caps text-label-caps text-on-surface border-b border-outline-variant pb-xs mb-md flex items-center gap-xs">
+                    <span class="w-1 h-3 bg-tertiary-fixed-dim block"></span>
+                    {{ categoryLabelKey(category) | transloco }}
+                  </h3>
+                  @for (trait of traitsFor(category); track trait.traitCode) {
+                    <app-trait-slider
+                      [traitCode]="trait.traitCode"
+                      [lowLabel]="trait.lowLabel"
+                      [midLabel]="trait.midLabel"
+                      [highLabel]="trait.highLabel"
+                      [sweetSpot]="sweetSpotFor(trait.traitCode)"
+                      [(ngModel)]="traitValues[trait.traitCode]"
+                      [ngModelOptions]="{ standalone: true }"
+                    />
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          @if (activeTab() === 'production') {
+            <h2 class="font-headline-sm text-headline-sm text-on-surface mb-md">{{ 'cowIntake.production.title' | transloco }}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.production.lactationNumber' | transloco }}</label>
+                <input type="number" min="1" [(ngModel)]="production.lactationNumber" name="lactationNumber"
+                  class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" />
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.production.daysInMilk' | transloco }}</label>
+                <input type="number" min="0" [(ngModel)]="production.daysInMilk" name="daysInMilk"
+                  class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" />
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.production.milkYieldKg' | transloco }}</label>
+                <input type="number" min="0" step="0.1" [(ngModel)]="production.milkYieldKg" name="milkYieldKg"
+                  class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" />
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.production.fatPercent' | transloco }}</label>
+                <input type="number" min="0" step="0.01" [(ngModel)]="production.fatPercent" name="fatPercent"
+                  class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" />
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.production.proteinPercent' | transloco }}</label>
+                <input type="number" min="0" step="0.01" [(ngModel)]="production.proteinPercent" name="proteinPercent"
+                  class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" />
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.production.solidsPercent' | transloco }}</label>
+                <input type="number" min="0" step="0.01" [(ngModel)]="production.solidsPercent" name="solidsPercent"
+                  class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" />
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.production.somaticCellScore' | transloco }}</label>
+                <input type="number" min="0" step="0.1" [(ngModel)]="production.somaticCellScore" name="somaticCellScore"
+                  class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" />
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.production.measurementBasis' | transloco }}</label>
+                <select [(ngModel)]="production.measurementBasis" name="measurementBasis"
+                  class="w-full font-body-md text-body-md bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none text-on-surface">
+                  @for (basis of measurementBasisOptions; track basis) {
+                    <option [value]="basis">{{ 'cowIntake.measurementBasis.' + basis | transloco }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+          }
+
+          @if (activeTab() === 'reproductive') {
+            <h2 class="font-headline-sm text-headline-sm text-on-surface mb-md">{{ 'cowIntake.reproductive.title' | transloco }}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.reproductive.status' | transloco }}</label>
+                <select [(ngModel)]="reproductiveStatus.status" name="reproStatus"
+                  class="w-full font-body-md text-body-md bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none text-on-surface">
+                  @for (status of reproductiveStatusOptions; track status) {
+                    <option [value]="status">{{ 'cowIntake.reproductiveStatus.' + status | transloco }}</option>
+                  }
+                </select>
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.reproductive.lastCalvingDate' | transloco }}</label>
+                <input type="date" [(ngModel)]="reproductiveStatus.lastCalvingDate" name="lastCalvingDate"
+                  class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" />
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.reproductive.daysOpen' | transloco }}</label>
+                <input type="number" min="0" [(ngModel)]="reproductiveStatus.daysOpen" name="daysOpen"
+                  class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" />
+              </div>
+            </div>
+          }
+
+          @if (activeTab() === 'health') {
+            <div class="flex justify-between items-center mb-md">
+              <h2 class="font-headline-sm text-headline-sm text-on-surface">{{ 'cowIntake.health.title' | transloco }}</h2>
+              <button type="button" (click)="addHealthEvent()" class="flex items-center gap-xs text-primary font-label-caps text-label-caps hover:bg-surface-container p-xs rounded transition-colors">
+                <span class="material-symbols-outlined text-sm">add</span>
+                {{ 'cowIntake.health.addEvent' | transloco }}
+              </button>
+            </div>
+            @if (healthEvents.length === 0) {
+              <p class="font-body-sm text-body-sm text-on-surface-variant">{{ 'cowIntake.health.empty' | transloco }}</p>
+            }
+            <div class="flex flex-col gap-md">
+              @for (event of healthEvents; track $index) {
+                <div class="border border-outline-variant rounded-lg p-md grid grid-cols-1 sm:grid-cols-4 gap-md items-end">
+                  <div>
+                    <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.health.eventType' | transloco }}</label>
+                    <select [(ngModel)]="event.eventType" [name]="'eventType' + $index"
+                      class="w-full font-body-md text-body-md bg-surface-container-low border border-outline-variant rounded px-sm py-sm outline-none text-on-surface">
+                      @for (type of healthEventTypeOptions; track type) {
+                        <option [value]="type">{{ 'cowIntake.healthEventType.' + type | transloco }}</option>
+                      }
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.health.severity' | transloco }}</label>
+                    <select [(ngModel)]="event.severity" [name]="'severity' + $index"
+                      class="w-full font-body-md text-body-md bg-surface-container-low border border-outline-variant rounded px-sm py-sm outline-none text-on-surface">
+                      @for (sev of healthSeverityOptions; track sev) {
+                        <option [value]="sev">{{ 'cowIntake.severity.' + sev | transloco }}</option>
+                      }
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">{{ 'cowIntake.health.occurredAt' | transloco }}</label>
+                    <input type="date" [(ngModel)]="event.occurredAt" [name]="'occurredAt' + $index"
+                      class="w-full font-data-mono text-data-mono bg-surface-container-low border border-outline-variant rounded px-sm py-sm outline-none" />
+                  </div>
+                  <button type="button" (click)="removeHealthEvent($index)" class="justify-self-start sm:justify-self-end text-error font-label-caps text-label-caps hover:bg-error-container px-sm py-sm rounded transition-colors">
+                    {{ 'common.remove' | transloco }}
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="p-md border-t border-outline-variant bg-surface-container-low rounded-b-xl flex justify-between items-center">
+          <span class="font-body-sm text-body-sm text-on-surface-variant">
+            <span class="font-bold text-on-surface">{{ classifiedCount }}</span> {{ 'cowIntake.ofTraitsClassified' | transloco: { total: traitDefinitions().length } }}
+          </span>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
